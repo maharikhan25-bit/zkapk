@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ps" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>زما د اپلیکیشنونو کتابتون</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#12161d; --surface:#1b212b; --surface-2:#212836; --border:#2a3140;
+    --text:#e7eaee; --text-dim:#8a93a3;
+    --apk:#5fbe8d; --apk-dim:#1e3b2c;
+    --exe:#f2a93b; --exe-dim:#3c2f14;
+    --danger:#e2624f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:'Vazirmatn',sans-serif; min-height:100vh;
+    padding:32px 20px 80px;
+  }
+  .wrap{max-width:960px; margin:0 auto;}
+  header{margin-bottom:28px;}
+  h1{font-size:28px; font-weight:800; margin:0 0 8px;}
+  .subtitle{color:var(--text-dim); font-size:15px; margin:0 0 14px; line-height:1.8;}
+  .note{
+    background:var(--surface); border:1px solid var(--border); border-radius:10px;
+    padding:12px 16px; font-size:13px; color:var(--text-dim); line-height:1.9;
+  }
+  .toolbar{
+    display:flex; gap:12px; margin:26px 0 20px; flex-wrap:wrap; align-items:center;
+  }
+  input[type=text]{
+    flex:1; min-width:200px; background:var(--surface); border:1px solid var(--border);
+    color:var(--text); padding:12px 14px; border-radius:10px; font-family:inherit; font-size:14px;
+  }
+  input[type=text]:focus{outline:2px solid var(--exe); outline-offset:1px;}
+  button{
+    font-family:inherit; font-size:14px; cursor:pointer; border-radius:10px; border:1px solid var(--border);
+    padding:12px 18px; background:var(--surface-2); color:var(--text); font-weight:600;
+  }
+  button:hover{border-color:var(--exe);}
+  button:focus-visible{outline:2px solid var(--exe); outline-offset:2px;}
+  .grid{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px;
+  }
+  .card{
+    background:var(--surface); border:1px solid var(--border); border-radius:14px;
+    overflow:hidden; animation:in .3s ease;
+  }
+  @keyframes in{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+  .card-top{padding:16px 16px 12px; display:flex; align-items:center; gap:12px;}
+  .badge{
+    font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600;
+    padding:5px 9px; border-radius:6px; letter-spacing:.5px;
+  }
+  .badge.apk{background:var(--apk-dim); color:var(--apk);}
+  .badge.exe{background:var(--exe-dim); color:var(--exe);}
+  .card-name{font-size:14px; font-weight:600; word-break:break-word; flex:1;}
+  .perforation{
+    height:0; border-top:1.5px dashed var(--border); margin:0 16px; position:relative;
+  }
+  .perforation::before,.perforation::after{
+    content:""; position:absolute; top:-7px; width:14px; height:14px; border-radius:50%; background:var(--bg);
+  }
+  .perforation::before{right:-23px;} .perforation::after{left:-23px;}
+  .card-bottom{padding:12px 16px 16px; display:flex; justify-content:space-between; align-items:center; gap:10px;}
+  .size{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim);}
+  .actions{display:flex; gap:8px;}
+  .actions button{padding:8px 12px; font-size:12px;}
+  .actions .del{color:var(--danger); border-color:var(--danger);}
+  .empty{
+    text-align:center; padding:70px 20px; color:var(--text-dim); border:1px dashed var(--border);
+    border-radius:14px;
+  }
+  .empty b{color:var(--text); display:block; margin-bottom:6px; font-size:16px;}
+  .admin-toggle{font-size:12px; color:var(--text-dim); background:none; border:none; text-decoration:underline; padding:0; margin-top:24px;}
+  .admin-panel{
+    display:none; margin-top:16px; background:var(--surface); border:1px solid var(--border);
+    border-radius:14px; padding:20px;
+  }
+  .admin-panel.open{display:block;}
+  .admin-panel input[type=password], .admin-panel input[type=file]{
+    width:100%; background:var(--surface-2); border:1px solid var(--border); color:var(--text);
+    padding:10px 12px; border-radius:8px; font-family:inherit; margin-bottom:12px;
+  }
+  .progress{height:6px; background:var(--surface-2); border-radius:4px; overflow:hidden; margin-top:10px; display:none;}
+  .progress.on{display:block;}
+  .progress div{height:100%; background:var(--exe); width:0%; transition:width .2s;}
+  .status{font-size:13px; margin-top:10px; color:var(--text-dim);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>زما د اپلیکیشنونو کتابتون</h1>
+    <p class="subtitle">خپل APK او EXE فایلونه دلته خوندي کړئ — هرڅوک کولی شي دا پاڼه پرانیزي، لټون وکړي او ډونلوډ یې کړي.</p>
+    <div class="note">یادونه: د امنیت له مخې براوزر نصب فایلونه پخپله نشي چالولی؛ دا پاڼه یوازې د ساتلو او ډونلوډ کولو لپاره ده — ډونلوډ کیدونکی فایل بیا په خپل وسیله کې لکه معمول نصب کیږي.</div>
+  </header>
+
+  <div class="toolbar">
+    <input type="text" id="search" placeholder="د اپلیکیشن په نوم لټون وکړئ...">
+  </div>
+
+  <div id="listArea"></div>
+
+  <button class="admin-toggle" id="adminToggle">د اداره کوونکي ننوتل (نوی اپلیکیشن اپلوډ کول)</button>
+  <div class="admin-panel" id="adminPanel">
+    <input type="password" id="pw" placeholder="پټ کلمه">
+    <input type="file" id="fileInput" accept=".apk,.exe">
+    <button id="uploadBtn">اپلوډ کول</button>
+    <div class="progress" id="progressWrap"><div id="progressBar"></div></div>
+    <div class="status" id="status"></div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+let allApps = [];
+
+function fmtSize(bytes){
+  if(bytes < 1024*1024) return (bytes/1024).toFixed(0) + " KB";
+  return (bytes/(1024*1024)).toFixed(1) + " MB";
+}
+
+function render(){
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  const area = document.getElementById('listArea');
+  const filtered = allApps.filter(a => a.name.toLowerCase().includes(q));
+  if(filtered.length === 0){
+    area.innerHTML = `<div class="empty"><b>هیڅ اپلیکیشن ونه موندل شو</b>${allApps.length===0 ? 'تر اوسه هیڅ اپلیکیشن اپلوډ شوی نه دی' : 'د لټون کلمه بدله کړئ'}</div>`;
+    return;
+  }
+  area.innerHTML = `<div class="grid">${filtered.map(a => `
+    <div class="card">
+      <div class="card-top">
+        <span class="badge ${a.ext}">${a.ext.toUpperCase()}</span>
+        <span class="card-name">${a.name}</span>
+      </div>
+      <div class="perforation"></div>
+      <div class="card-bottom">
+        <span class="size">${fmtSize(a.size)}</span>
+        <div class="actions">
+          <button onclick="window.open('${a.url}','_blank')">ډونلوډ</button>
+          <button class="del" onclick="deleteApp('${a.id}','${a.path}')">لرې کول</button>
+        </div>
+      </div>
+    </div>`).join('')}</div>`;
+}
+
+db.collection('apps').orderBy('uploadedAt','desc').onSnapshot(snap => {
+  allApps = snap.docs.map(d => ({id:d.id, ...d.data()}));
+  render();
+});
+
+document.getElementById('search').addEventListener('input', render);
+
+document.getElementById('adminToggle').addEventListener('click', () => {
+  document.getElementById('adminPanel').classList.toggle('open');
+});
+
+document.getElementById('uploadBtn').addEventListener('click', () => {
+  const pw = document.getElementById('pw').value;
+  const file = document.getElementById('fileInput').files[0];
+  const status = document.getElementById('status');
+  if(pw !== UPLOAD_PASSWORD){ status.textContent = "پټ کلمه سمه نه ده."; return; }
+  if(!file){ status.textContent = "لومړی فایل غوره کړئ."; return; }
+  const ext = file.name.split('.').pop().toLowerCase();
+  if(ext !== 'apk' && ext !== 'exe'){ status.textContent = "یوازې APK یا EXE فایلونه منل کیږي."; return; }
+
+  const path = 'apps/' + Date.now() + '_' + file.name;
+  const ref = storage.ref(path);
+  const task = ref.put(file);
+  document.getElementById('progressWrap').classList.add('on');
+  status.textContent = "اپلوډ کیږي...";
+
+  task.on('state_changed', snap => {
+    const pct = (snap.bytesTransferred/snap.totalBytes)*100;
+    document.getElementById('progressBar').style.width = pct + '%';
+  }, err => {
+    status.textContent = "تیروتنه: " + err.message;
+  }, () => {
+    task.snapshot.ref.getDownloadURL().then(url => {
+      db.collection('apps').add({
+        name:file.name, ext:ext, size:file.size, url:url, path:path, uploadedAt:Date.now()
+      }).then(() => {
+        status.textContent = "بریالیتوب سره اپلوډ شو.";
+        document.getElementById('fileInput').value = '';
+        document.getElementById('progressWrap').classList.remove('on');
+      });
+    });
+  });
+});
+
+function deleteApp(id, path){
+  const pw = prompt("د لرې کولو لپاره پټ کلمه ولیکئ:");
+  if(pw !== UPLOAD_PASSWORD){ alert("پټ کلمه سمه نه ده."); return; }
+  storage.ref(path).delete().catch(()=>{});
+  db.collection('apps').doc(id).delete();
+}
+</script>
+</body>
+</html>
