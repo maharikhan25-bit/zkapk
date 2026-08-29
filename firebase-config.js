@@ -1,16 +1,14 @@
-// دلته خپل Firebase تنظیمات کیږدئ (له Firebase Console څخه)
+// Firebase تنظیمات — د zkapk پروژې لپاره
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyACPnR4s769MxaQXWJ26aq2V5O2KmMAKKg",
+  authDomain: "zkapk-958b4.firebaseapp.com",
+  projectId: "zkapk-958b4",
+  storageBucket: "zkapk-958b4.firebasestorage.app",
+  messagingSenderId: "492527142600",
+  appId: "1:492527142600:web:18443ab0dce0396721c7fd"
 };
 
-// دا پاسورډ به یوازې تاسو ته اجازه درکړي چې نوی اپلیکیشن اپلوډ کړئ
-// (دا یوه ساده ساتنه ده، نه بشپړه امنیتي طریقه — که غواړئ Firebase Auth کارول غوره دي)
-const UPLOAD_PASSWORD = "خپل-پټ-کلمه-دلته-ولیکئ";
+const UPLOAD_PASSWORD = "edris_zirak";
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
