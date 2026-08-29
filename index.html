@@ -31,17 +31,18 @@
   .toolbar{
     display:flex; gap:12px; margin:26px 0 20px; flex-wrap:wrap; align-items:center;
   }
-  input[type=text]{
+  input[type=text], input[type=password]{
     flex:1; min-width:200px; background:var(--surface); border:1px solid var(--border);
     color:var(--text); padding:12px 14px; border-radius:10px; font-family:inherit; font-size:14px;
   }
-  input[type=text]:focus{outline:2px solid var(--exe); outline-offset:1px;}
+  input[type=text]:focus, input[type=password]:focus{outline:2px solid var(--exe); outline-offset:1px;}
   button{
     font-family:inherit; font-size:14px; cursor:pointer; border-radius:10px; border:1px solid var(--border);
     padding:12px 18px; background:var(--surface-2); color:var(--text); font-weight:600;
   }
   button:hover{border-color:var(--exe);}
   button:focus-visible{outline:2px solid var(--exe); outline-offset:2px;}
+  button:disabled{opacity:.5; cursor:not-allowed;}
   .grid{
     display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px;
   }
@@ -81,14 +82,17 @@
     border-radius:14px; padding:20px;
   }
   .admin-panel.open{display:block;}
-  .admin-panel input[type=password], .admin-panel input[type=file]{
+  .admin-panel label{display:block; font-size:12px; color:var(--text-dim); margin:10px 0 4px;}
+  .admin-panel input[type=password], .admin-panel input[type=file], .admin-panel input[type=text]{
     width:100%; background:var(--surface-2); border:1px solid var(--border); color:var(--text);
-    padding:10px 12px; border-radius:8px; font-family:inherit; margin-bottom:12px;
+    padding:10px 12px; border-radius:8px; font-family:inherit; margin-bottom:6px;
   }
   .progress{height:6px; background:var(--surface-2); border-radius:4px; overflow:hidden; margin-top:10px; display:none;}
   .progress.on{display:block;}
-  .progress div{height:100%; background:var(--exe); width:0%; transition:width .2s;}
+  .progress div{height:100%; background:var(--exe); width:40%; animation:load 1s ease-in-out infinite;}
+  @keyframes load{0%{margin-right:0%;} 50%{margin-right:60%;} 100%{margin-right:0%;}}
   .status{font-size:13px; margin-top:10px; color:var(--text-dim);}
+  .hint{font-size:11px; color:var(--text-dim); margin-top:2px; line-height:1.7;}
 </style>
 </head>
 <body>
@@ -96,7 +100,7 @@
   <header>
     <h1>زما د اپلیکیشنونو کتابتون</h1>
     <p class="subtitle">خپل APK او EXE فایلونه دلته خوندي کړئ — هرڅوک کولی شي دا پاڼه پرانیزي، لټون وکړي او ډونلوډ یې کړي.</p>
-    <div class="note">یادونه: د امنیت له مخې براوزر نصب فایلونه پخپله نشي چالولی؛ دا پاڼه یوازې د ساتلو او ډونلوډ کولو لپاره ده — ډونلوډ کیدونکی فایل بیا په خپل وسیله کې لکه معمول نصب کیږي.</div>
+    <div class="note">یادونه: د امنیت له مخې براوزر نصب فایلونه پخپله نشي چالولی؛ دا پاڼه یوازې د ساتلو او ډونلوډ کولو لپاره ده.</div>
   </header>
 
   <div class="toolbar">
@@ -107,24 +111,49 @@
 
   <button class="admin-toggle" id="adminToggle">د اداره کوونکي ننوتل (نوی اپلیکیشن اپلوډ کول)</button>
   <div class="admin-panel" id="adminPanel">
-    <input type="password" id="pw" placeholder="پټ کلمه">
+    <label>پاسورډ</label>
+    <input type="password" id="pw" placeholder="پاسورډ">
+
+    <label>GitHub Token</label>
+    <input type="password" id="ghToken" placeholder="ghp_... (یوازې دا ناستې لپاره کارول کیږي، نه ساتل کیږي)">
+    <div class="hint">هر ځل چې اپلوډ کوئ دا لیکل کیږي — دا هیڅکله ذخیره یا خوندي نشي.</div>
+
+    <label>فایل غوره کړئ (APK یا EXE)</label>
     <input type="file" id="fileInput" accept=".apk,.exe">
+
     <button id="uploadBtn">اپلوډ کول</button>
-    <div class="progress" id="progressWrap"><div id="progressBar"></div></div>
+    <div class="progress" id="progressWrap"><div></div></div>
     <div class="status" id="status"></div>
   </div>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
-<script src="firebase-config.js"></script>
+<script src="github-config.js"></script>
 <script>
+const API_BASE = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents`;
+const RAW_BASE = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}`;
 let allApps = [];
 
 function fmtSize(bytes){
   if(bytes < 1024*1024) return (bytes/1024).toFixed(0) + " KB";
   return (bytes/(1024*1024)).toFixed(1) + " MB";
+}
+
+async function loadManifest(){
+  try{
+    const res = await fetch(`${API_BASE}/apps/manifest.json?ref=${GITHUB_BRANCH}&t=${Date.now()}`);
+    if(!res.ok) return { list: [], sha: null };
+    const data = await res.json();
+    const decoded = decodeURIComponent(escape(atob(data.content)));
+    return { list: JSON.parse(decoded), sha: data.sha };
+  }catch(e){
+    return { list: [], sha: null };
+  }
+}
+
+async function refresh(){
+  const { list } = await loadManifest();
+  allApps = list;
+  render();
 }
 
 function render(){
@@ -145,63 +174,102 @@ function render(){
       <div class="card-bottom">
         <span class="size">${fmtSize(a.size)}</span>
         <div class="actions">
-          <button onclick="window.open('${a.url}','_blank')">ډونلوډ</button>
-          <button class="del" onclick="deleteApp('${a.id}','${a.path}')">لرې کول</button>
+          <button onclick="window.open('${RAW_BASE}/${a.path}','_blank')">ډونلوډ</button>
+          <button class="del" onclick="deleteApp('${a.path}')">لرې کول</button>
         </div>
       </div>
     </div>`).join('')}</div>`;
 }
 
-db.collection('apps').orderBy('uploadedAt','desc').onSnapshot(snap => {
-  allApps = snap.docs.map(d => ({id:d.id, ...d.data()}));
-  render();
-});
-
 document.getElementById('search').addEventListener('input', render);
-
 document.getElementById('adminToggle').addEventListener('click', () => {
   document.getElementById('adminPanel').classList.toggle('open');
 });
 
-document.getElementById('uploadBtn').addEventListener('click', () => {
+function toBase64(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function ghPut(path, contentBase64, message, sha, token){
+  const body = { message, content: contentBase64, branch: GITHUB_BRANCH };
+  if(sha) body.sha = sha;
+  const res = await fetch(`${API_BASE}/${path}`, {
+    method: 'PUT',
+    headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github+json' },
+    body: JSON.stringify(body)
+  });
+  if(!res.ok){ const e = await res.json(); throw new Error(e.message || 'GitHub error'); }
+  return res.json();
+}
+
+document.getElementById('uploadBtn').addEventListener('click', async () => {
   const pw = document.getElementById('pw').value;
+  const token = document.getElementById('ghToken').value.trim();
   const file = document.getElementById('fileInput').files[0];
   const status = document.getElementById('status');
-  if(pw !== UPLOAD_PASSWORD){ status.textContent = "پټ کلمه سمه نه ده."; return; }
+  const btn = document.getElementById('uploadBtn');
+
+  if(pw !== UPLOAD_PASSWORD){ status.textContent = "پاسورډ سم نه دی."; return; }
+  if(!token){ status.textContent = "لومړی GitHub Token ولیکئ."; return; }
   if(!file){ status.textContent = "لومړی فایل غوره کړئ."; return; }
   const ext = file.name.split('.').pop().toLowerCase();
   if(ext !== 'apk' && ext !== 'exe'){ status.textContent = "یوازې APK یا EXE فایلونه منل کیږي."; return; }
+  if(file.size > 25*1024*1024){ status.textContent = "دا فایل له ۲۵ MB زیات دی — نشي اپلوډ کیدلی."; return; }
 
-  const path = 'apps/' + Date.now() + '_' + file.name;
-  const ref = storage.ref(path);
-  const task = ref.put(file);
+  btn.disabled = true;
   document.getElementById('progressWrap').classList.add('on');
   status.textContent = "اپلوډ کیږي...";
 
-  task.on('state_changed', snap => {
-    const pct = (snap.bytesTransferred/snap.totalBytes)*100;
-    document.getElementById('progressBar').style.width = pct + '%';
-  }, err => {
-    status.textContent = "تیروتنه: " + err.message;
-  }, () => {
-    task.snapshot.ref.getDownloadURL().then(url => {
-      db.collection('apps').add({
-        name:file.name, ext:ext, size:file.size, url:url, path:path, uploadedAt:Date.now()
-      }).then(() => {
-        status.textContent = "بریالیتوب سره اپلوډ شو.";
-        document.getElementById('fileInput').value = '';
-        document.getElementById('progressWrap').classList.remove('on');
-      });
-    });
-  });
+  try{
+    const b64 = await toBase64(file);
+    const path = `apps/${Date.now()}_${file.name}`;
+    await ghPut(path, b64, `Add app: ${file.name}`, null, token);
+
+    const { list, sha } = await loadManifest();
+    list.unshift({ name:file.name, ext:ext, size:file.size, path:path, uploadedAt:Date.now() });
+    const manifestB64 = btoa(unescape(encodeURIComponent(JSON.stringify(list, null, 2))));
+    await ghPut('apps/manifest.json', manifestB64, `Update manifest: add ${file.name}`, sha, token);
+
+    status.textContent = "بریالیتوب سره اپلوډ شو.";
+    document.getElementById('fileInput').value = '';
+    await refresh();
+  }catch(e){
+    status.textContent = "تیروتنه: " + e.message;
+  }finally{
+    btn.disabled = false;
+    document.getElementById('progressWrap').classList.remove('on');
+  }
 });
 
-function deleteApp(id, path){
-  const pw = prompt("د لرې کولو لپاره پټ کلمه ولیکئ:");
-  if(pw !== UPLOAD_PASSWORD){ alert("پټ کلمه سمه نه ده."); return; }
-  storage.ref(path).delete().catch(()=>{});
-  db.collection('apps').doc(id).delete();
+async function deleteApp(path){
+  const pw = prompt("د لرې کولو لپاره پاسورډ ولیکئ:");
+  if(pw !== UPLOAD_PASSWORD){ alert("پاسورډ سم نه دی."); return; }
+  const token = prompt("GitHub Token ولیکئ:");
+  if(!token) return;
+  try{
+    const fileRes = await fetch(`${API_BASE}/${path}?ref=${GITHUB_BRANCH}`);
+    const fileData = await fileRes.json();
+    await fetch(`${API_BASE}/${path}`, {
+      method:'DELETE',
+      headers:{ 'Authorization':`token ${token}`, 'Accept':'application/vnd.github+json' },
+      body: JSON.stringify({ message:`Remove ${path}`, sha:fileData.sha, branch:GITHUB_BRANCH })
+    });
+    const { list, sha } = await loadManifest();
+    const updated = list.filter(a => a.path !== path);
+    const manifestB64 = btoa(unescape(encodeURIComponent(JSON.stringify(updated, null, 2))));
+    await ghPut('apps/manifest.json', manifestB64, `Update manifest: remove ${path}`, sha, token);
+    await refresh();
+  }catch(e){
+    alert("تیروتنه: " + e.message);
+  }
 }
+
+refresh();
 </script>
 </body>
 </html>
