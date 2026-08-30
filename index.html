@@ -1,371 +1,1254 @@
 <!DOCTYPE html>
-<html lang="ps" dir="rtl">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Edris Zirak — zkapk</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#0a0d16; --bg-2:#10141f;
-    --surface:#151a27; --surface-2:#1b2233;
-    --border:#262e42; --border-soft:#1f2635;
-    --text:#f1f3f8; --text-dim:#9199ad; --text-faint:#5c6478;
-    --apk-a:#22c98e; --apk-b:#0e9e6d;
-    --exe-a:#ffb648; --exe-b:#ff8a3d;
-    --blue-a:#4f8dff; --blue-b:#2f5fe0;
-    --violet-a:#a78bfa; --violet-b:#7c5cf5;
-    --danger:#ff6b6b;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0; background:
-      radial-gradient(1000px 600px at 20% -10%, rgba(124,92,245,.20), transparent 55%),
-      radial-gradient(800px 500px at 100% 0%, rgba(79,141,255,.14), transparent 55%),
-      var(--bg);
-    color:var(--text); font-family:'Vazirmatn',sans-serif; min-height:100vh;
-  }
-  .wrap{max-width:1000px; margin:0 auto; padding:28px 20px 90px;}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  nav{display:flex; align-items:center; justify-content:space-between; padding:6px 0 34px;}
-  .brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:17px;}
-  .brand .hex{
-    width:34px; height:34px; border-radius:10px;
-    background:linear-gradient(135deg, var(--violet-a), var(--blue-a));
-    display:flex; align-items:center; justify-content:center; font-weight:900; color:#0a0d16;
-  }
+    <title>Edris Apps | Apps & Software</title>
 
-  .hero{text-align:center; padding:10px 0 8px;}
-  .avatar-ring{
-    width:150px; height:150px; border-radius:50%; margin:0 auto 22px; padding:4px;
-    background:conic-gradient(from 180deg, var(--violet-a), var(--blue-a), var(--apk-a), var(--violet-a));
-    box-shadow:0 0 40px -8px rgba(124,92,245,.5);
-  }
-  .avatar-ring img{width:100%; height:100%; border-radius:50%; object-fit:cover; display:block; border:4px solid var(--bg);}
-  .hero h1{font-size:34px; font-weight:900; margin:0 0 6px; letter-spacing:-.5px;}
-  .hero h1 span{
-    background:linear-gradient(90deg, var(--violet-a), var(--blue-a));
-    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
-  }
-  .role{font-size:12px; letter-spacing:2px; color:var(--text-faint); font-weight:700; margin-bottom:14px;}
-  .tagline{color:var(--text-dim); font-size:15px; max-width:520px; margin:0 auto 26px; line-height:1.9;}
+    <meta name="description"
+          content="Edris Apps - Discover useful, modern and powerful applications.">
 
-  .stats{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:34px;}
-  .stat{
-    background:var(--surface); border:1px solid var(--border-soft); border-radius:16px;
-    padding:14px 22px; display:flex; align-items:center; gap:12px; min-width:150px;
-  }
-  .stat .ic{
-    width:38px; height:38px; border-radius:11px; flex:0 0 auto;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .stat .num{font-family:'JetBrains Mono',monospace; font-size:19px; font-weight:800; line-height:1.1;}
-  .stat .lbl{font-size:11px; color:var(--text-faint); margin-top:2px;}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  .section-head{display:flex; align-items:center; justify-content:space-between; margin:8px 0 16px;}
-  .section-head h2{font-size:19px; font-weight:800; margin:0; display:flex; align-items:center; gap:10px;}
-  .section-head h2::before{content:""; width:4px; height:20px; border-radius:3px; background:linear-gradient(180deg, var(--violet-a), var(--blue-a));}
+        :root {
+            --bg: #020617;
+            --bg2: #050b20;
+            --card: rgba(10, 20, 48, 0.72);
+            --border: rgba(112, 80, 255, 0.28);
+            --purple: #9b4dff;
+            --blue: #168cff;
+            --cyan: #00d9ff;
+            --text: #ffffff;
+            --muted: #9ba7c7;
+        }
 
-  .search-box{position:relative; margin-bottom:20px;}
-  .search-box svg{position:absolute; right:16px; top:50%; transform:translateY(-50%); opacity:.5; pointer-events:none;}
-  input[type=text], input[type=password]{
-    width:100%; background:var(--surface); border:1px solid var(--border);
-    color:var(--text); padding:14px 46px 14px 16px; border-radius:14px; font-family:inherit; font-size:14px;
-  }
-  input[type=text]:focus, input[type=password]:focus{outline:none; border-color:var(--violet-a); box-shadow:0 0 0 3px rgba(167,139,250,.15);}
+        html {
+            scroll-behavior: smooth;
+        }
 
-  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:16px; margin-bottom:36px;}
-  .card{
-    background:var(--surface); border:1px solid var(--border-soft); border-radius:20px;
-    padding:20px; transition:transform .18s, border-color .18s, box-shadow .18s;
-  }
-  .card:hover{transform:translateY(-4px); border-color:rgba(167,139,250,.4); box-shadow:0 14px 30px -12px rgba(0,0,0,.5);}
-  .card .icon-tile{
-    width:54px; height:54px; border-radius:16px; margin-bottom:14px;
-    display:flex; align-items:center; justify-content:center;
-    font-family:'JetBrains Mono',monospace; font-weight:800; font-size:13px; color:#0a0d16;
-  }
-  .icon-tile.apk{background:linear-gradient(135deg, var(--apk-a), var(--apk-b)); box-shadow:0 8px 18px -6px rgba(34,201,142,.5);}
-  .icon-tile.exe{background:linear-gradient(135deg, var(--exe-a), var(--exe-b)); box-shadow:0 8px 18px -6px rgba(255,138,61,.5);}
-  .card .name{font-size:14.5px; font-weight:700; margin-bottom:4px; word-break:break-word; line-height:1.4;}
-  .card .cat{font-size:11.5px; color:var(--text-faint); margin-bottom:14px;}
-  .card .row{display:flex; align-items:center; justify-content:space-between; gap:8px;}
-  .card .size{font-size:11.5px; color:var(--text-dim); font-family:'JetBrains Mono',monospace;}
-  .card .btns{display:flex; gap:6px;}
-  button{
-    font-family:inherit; cursor:pointer; border-radius:9px; border:1px solid var(--border);
-    background:var(--surface-2); color:var(--text); font-weight:600; font-size:12px; padding:7px 12px;
-    transition:transform .12s, border-color .15s;
-  }
-  button:hover{border-color:var(--violet-a); transform:translateY(-1px);}
-  button:disabled{opacity:.5; cursor:not-allowed; transform:none;}
-  .btn-dl{background:linear-gradient(135deg, rgba(167,139,250,.25), rgba(79,141,255,.15)); border-color:rgba(167,139,250,.4);}
-  .btn-del{color:var(--danger); border-color:rgba(255,107,107,.4); background:rgba(255,107,107,.08);}
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at 15% 25%, rgba(115, 0, 255, .18), transparent 28%),
+                radial-gradient(circle at 85% 30%, rgba(0, 130, 255, .16), transparent 28%),
+                linear-gradient(135deg, #01030d, #03081b 50%, #01030d);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-  .empty{
-    text-align:center; padding:60px 20px; color:var(--text-dim);
-    border:1.5px dashed var(--border); border-radius:22px; margin-bottom:34px;
-    background:radial-gradient(400px 200px at 50% 0%, rgba(124,92,245,.08), transparent);
-  }
-  .empty svg{opacity:.5; margin-bottom:12px;}
-  .empty b{color:var(--text); display:block; margin-bottom:6px; font-size:16px;}
+        /* Background glow */
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: .12;
+            z-index: -1;
+        }
 
-  .about{
-    display:flex; align-items:center; gap:24px; background:var(--surface);
-    border:1px solid var(--border-soft); border-radius:22px; padding:26px; margin-bottom:30px; flex-wrap:wrap;
-  }
-  .about .av2{
-    width:56px; height:56px; border-radius:50%; flex:0 0 auto; object-fit:cover;
-    border:2px solid var(--violet-a);
-  }
-  .about .body{flex:1; min-width:220px;}
-  .about h3{margin:0 0 8px; font-size:16px;}
-  .about p{margin:0; color:var(--text-dim); font-size:14px; line-height:1.9;}
+        body::before {
+            background: #7c3cff;
+            left: -200px;
+            top: 300px;
+        }
 
-  .admin-toggle{
-    font-size:13px; color:var(--text-dim); background:none; border:none; padding:10px 0; cursor:pointer;
-    display:flex; align-items:center; gap:8px; margin-bottom:6px;
-  }
-  .admin-panel{display:none; background:var(--surface); border:1px solid var(--border-soft); border-radius:18px; padding:22px;}
-  .admin-panel.open{display:block;}
-  .admin-panel label{display:block; font-size:12px; color:var(--text-dim); margin:12px 0 6px; font-weight:600;}
-  .admin-panel input[type=password], .admin-panel input[type=file]{
-    width:100%; background:var(--surface-2); border:1px solid var(--border); color:var(--text);
-    padding:11px 14px; border-radius:10px; font-family:inherit; margin-bottom:4px;
-  }
-  .upload-btn{
-    margin-top:14px; width:100%; padding:13px; border-radius:12px; font-weight:700; font-size:14px;
-    background:linear-gradient(135deg, var(--violet-a), var(--blue-b)); border:none; color:#fff;
-  }
-  .progress{height:6px; background:var(--surface-2); border-radius:4px; overflow:hidden; margin-top:12px; display:none;}
-  .progress.on{display:block;}
-  .progress div{height:100%; width:40%; border-radius:4px; background:linear-gradient(90deg, var(--violet-a), var(--apk-a)); animation:load 1s ease-in-out infinite;}
-  @keyframes load{0%{margin-right:0%;} 50%{margin-right:60%;} 100%{margin-right:0%;}}
-  .status{font-size:13px; margin-top:10px; color:var(--text-dim);}
-  .hint{font-size:11px; color:var(--text-faint); margin-top:2px; line-height:1.7;}
+        body::after {
+            background: #008cff;
+            right: -200px;
+            top: 500px;
+        }
 
-  footer{text-align:center; padding:30px 0 10px; color:var(--text-faint); font-size:12px; border-top:1px solid var(--border-soft); margin-top:40px;}
-</style>
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1180px, 92%);
+            margin: auto;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(18px);
+            background: rgba(1, 5, 18, .72);
+            border-bottom: 1px solid rgba(255,255,255,.06);
+        }
+
+        .navbar {
+            height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #7b2cff, #3a62ff);
+            box-shadow: 0 0 25px rgba(130, 65, 255, .5);
+            font-size: 20px;
+        }
+
+        .logo span {
+            background: linear-gradient(90deg, #fff, #9d68ff);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        nav {
+            display: flex;
+            gap: 35px;
+        }
+
+        nav a {
+            color: #c8d0e8;
+            font-size: 14px;
+            transition: .3s;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #fff;
+        }
+
+        .theme-btn {
+            width: 42px;
+            height: 42px;
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 50%;
+            background: rgba(255,255,255,.04);
+            color: white;
+            cursor: pointer;
+            font-size: 17px;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            text-align: center;
+            padding: 70px 0 45px;
+            position: relative;
+        }
+
+        .profile-wrapper {
+            width: 205px;
+            height: 205px;
+            margin: auto;
+            padding: 6px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #8b35ff,
+                #168cff,
+                #00d9ff,
+                #8b35ff
+            );
+            box-shadow:
+                0 0 35px rgba(120, 50, 255, .45),
+                0 0 90px rgba(0, 130, 255, .16);
+        }
+
+        .profile {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid #050a1c;
+            background: #0b132d;
+        }
+
+        .profile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero h1 {
+            margin-top: 25px;
+            font-size: clamp(42px, 7vw, 70px);
+            font-weight: 900;
+            letter-spacing: -2px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(90deg, #fff, #884cff, #238cff);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .role {
+            margin-top: 10px;
+            letter-spacing: 5px;
+            font-size: 13px;
+            color: #d9dded;
+        }
+
+        .hero-text {
+            max-width: 600px;
+            margin: 18px auto;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 25px;
+        }
+
+        .social {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,.05);
+            border: 1px solid rgba(150,100,255,.25);
+            transition: .3s;
+            font-size: 18px;
+        }
+
+        .social:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, #752dff, #167fff);
+            box-shadow: 0 10px 30px rgba(110,60,255,.3);
+        }
+
+        /* ================= STATS ================= */
+
+        .stats {
+            margin: 25px auto 45px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            overflow: hidden;
+            background: rgba(7, 16, 40, .7);
+            backdrop-filter: blur(20px);
+        }
+
+        .stat {
+            padding: 28px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-right: 1px solid rgba(255,255,255,.06);
+        }
+
+        .stat:last-child {
+            border: none;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            background: rgba(110,70,255,.15);
+            font-size: 22px;
+        }
+
+        .stat h3 {
+            font-size: 26px;
+        }
+
+        .stat p {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        /* ================= SEARCH ================= */
+
+        .tools {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        .search {
+            flex: 1;
+            position: relative;
+        }
+
+        .search input {
+            width: 100%;
+            height: 50px;
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 15px;
+            outline: none;
+            background: rgba(255,255,255,.04);
+            color: white;
+            padding: 0 18px;
+            font-size: 14px;
+        }
+
+        .categories {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+        }
+
+        .category {
+            white-space: nowrap;
+            border: 1px solid rgba(255,255,255,.08);
+            background: rgba(255,255,255,.04);
+            color: #cbd3e9;
+            padding: 13px 20px;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .category:hover,
+        .category.active {
+            color: white;
+            border-color: #874aff;
+            background: linear-gradient(135deg, #842aff, #3c5eff);
+            box-shadow: 0 8px 25px rgba(100,50,255,.25);
+        }
+
+        /* ================= SECTION TITLE ================= */
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 22px;
+        }
+
+        .section-title h2 {
+            font-size: 25px;
+        }
+
+        .section-title h2::before {
+            content: "";
+            display: inline-block;
+            width: 5px;
+            height: 25px;
+            border-radius: 5px;
+            background: linear-gradient(#a13cff, #4777ff);
+            margin-right: 12px;
+            vertical-align: middle;
+        }
+
+        .view-all {
+            color: #a76cff;
+            font-size: 14px;
+        }
+
+        /* ================= APPS ================= */
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .app-card {
+            padding: 18px;
+            border-radius: 19px;
+            background:
+                linear-gradient(145deg, rgba(18,30,67,.9), rgba(6,14,34,.85));
+            border: 1px solid rgba(105,110,190,.22);
+            transition: .35s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-card::before {
+            content: "";
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #713aff;
+            filter: blur(70px);
+            opacity: .08;
+            top: -50px;
+            right: -50px;
+        }
+
+        .app-card:hover {
+            transform: translateY(-7px);
+            border-color: rgba(140,80,255,.6);
+            box-shadow: 0 18px 45px rgba(0,0,0,.3);
+        }
+
+        .app-icon {
+            width: 78px;
+            height: 78px;
+            border-radius: 20px;
+            margin-bottom: 18px;
+            display: grid;
+            place-items: center;
+            font-size: 34px;
+            background: linear-gradient(135deg, #168dff, #193eea);
+            box-shadow: 0 12px 30px rgba(20,100,255,.25);
+        }
+
+        .app-card:nth-child(2) .app-icon {
+            background: linear-gradient(135deg, #b72cff, #5722dc);
+        }
+
+        .app-card:nth-child(3) .app-icon {
+            background: linear-gradient(135deg, #38dc5e, #008d63);
+        }
+
+        .app-card:nth-child(4) .app-icon {
+            background: linear-gradient(135deg, #ff6434, #e82917);
+        }
+
+        .app-card:nth-child(5) .app-icon {
+            background: linear-gradient(135deg, #20d5ff, #087cb8);
+        }
+
+        .app-card:nth-child(6) .app-icon {
+            background: linear-gradient(135deg, #ffbd20, #e66b00);
+        }
+
+        .app-card:nth-child(7) .app-icon {
+            background: linear-gradient(135deg, #ff3c9c, #c20b68);
+        }
+
+        .app-card:nth-child(8) .app-icon {
+            background: linear-gradient(135deg, #2672ff, #1939c9);
+        }
+
+        .app-card h3 {
+            font-size: 17px;
+            margin-bottom: 6px;
+        }
+
+        .app-category {
+            color: #8995b7;
+            font-size: 12px;
+        }
+
+        .app-description {
+            color: #aeb8d0;
+            font-size: 13px;
+            line-height: 1.6;
+            margin: 13px 0;
+            min-height: 42px;
+        }
+
+        .app-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            color: #cbd3e6;
+            font-size: 12px;
+        }
+
+        .download-btn {
+            width: 100%;
+            border: 1px solid rgba(120,70,255,.25);
+            border-radius: 10px;
+            padding: 11px;
+            text-align: center;
+            color: white;
+            background: linear-gradient(
+                90deg,
+                rgba(73,78,190,.25),
+                rgba(120,40,210,.25)
+            );
+            transition: .3s;
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(90deg, #742cff, #276cff);
+        }
+
+        /* ================= CTA ================= */
+
+        .cta {
+            margin: 55px 0 25px;
+            padding: 35px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(120,40,255,.25), transparent 30%),
+                linear-gradient(100deg, #10113c, #091b42);
+            border: 1px solid rgba(110,80,255,.3);
+        }
+
+        .cta h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .cta p {
+            color: var(--muted);
+        }
+
+        .cta-btn {
+            padding: 14px 25px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #a02cff, #287cff);
+            font-weight: bold;
+            white-space: nowrap;
+            box-shadow: 0 10px 30px rgba(100,50,255,.25);
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            border-top: 1px solid rgba(255,255,255,.07);
+            margin-top: 50px;
+            padding: 45px 0 25px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 40px;
+        }
+
+        .footer-logo {
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        footer p,
+        footer a {
+            color: #8995b5;
+            font-size: 13px;
+            line-height: 2;
+        }
+
+        footer h4 {
+            margin-bottom: 12px;
+        }
+
+        .subscribe {
+            display: flex;
+            margin-top: 12px;
+        }
+
+        .subscribe input {
+            min-width: 0;
+            flex: 1;
+            padding: 12px;
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 10px 0 0 10px;
+            background: rgba(255,255,255,.04);
+            color: white;
+            outline: none;
+        }
+
+        .subscribe button {
+            width: 50px;
+            border: none;
+            border-radius: 0 10px 10px 0;
+            background: linear-gradient(135deg, #8c2cff, #3178ff);
+            color: white;
+            cursor: pointer;
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,.06);
+            margin-top: 35px;
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            color: #68738f;
+            font-size: 12px;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 950px) {
+            .apps-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat:nth-child(2) {
+                border-right: none;
+            }
+
+            .stat:nth-child(-n+2) {
+                border-bottom: 1px solid rgba(255,255,255,.06);
+            }
+
+            .tools {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            nav {
+                display: none;
+            }
+
+            .navbar {
+                height: 68px;
+            }
+
+            .hero {
+                padding-top: 45px;
+            }
+
+            .profile-wrapper {
+                width: 160px;
+                height: 160px;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .role {
+                font-size: 10px;
+                letter-spacing: 3px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .stat {
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,.06);
+            }
+
+            .stat:last-child {
+                border-bottom: none;
+            }
+
+            .apps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .copyright {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-<div class="wrap">
-  <nav>
-    <div class="brand"><span class="hex">E</span> EDRIS ZIRAK</div>
-  </nav>
 
-  <div class="hero">
-    <div class="avatar-ring"><img src="profile.jpg" alt="Edris Zirak"></div>
-    <h1>Edris <span>Zirak</span></h1>
-    <div class="role">DEVELOPER &nbsp;|&nbsp; ZKAPK</div>
-    <p class="tagline">خپل APK او EXE اپلیکیشنونه دلته خوندي کوم — هرڅوک کولی شي دا پاڼه پرانیزي، لټون وکړي او ډونلوډ یې کړي.</p>
-  </div>
+<!-- ================= NAVBAR ================= -->
 
-  <div class="stats">
-    <div class="stat">
-      <div class="ic" style="background:linear-gradient(135deg,var(--violet-a),var(--blue-b))">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-      </div>
-      <div><div class="num" id="countTotal">0</div><div class="lbl">ټول اپلیکیشنونه</div></div>
+<header>
+    <div class="container navbar">
+
+        <a href="#" class="logo">
+            <div class="logo-icon">E</div>
+            <span>EDRIS APPS</span>
+        </a>
+
+        <nav>
+            <a href="#" class="active">Home</a>
+            <a href="#apps">Apps</a>
+            <a href="#categories">Categories</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <button class="theme-btn" onclick="toggleTheme()">☾</button>
+
     </div>
-    <div class="stat">
-      <div class="ic" style="background:linear-gradient(135deg,var(--apk-a),var(--apk-b))">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2v13m0 0-4-4m4 4 4-4M4 21h16"/></svg>
-      </div>
-      <div><div class="num" id="countApk">0</div><div class="lbl">APK فایلونه</div></div>
-    </div>
-    <div class="stat">
-      <div class="ic" style="background:linear-gradient(135deg,var(--exe-a),var(--exe-b))">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/></svg>
-      </div>
-      <div><div class="num" id="countExe">0</div><div class="lbl">EXE فایلونه</div></div>
-    </div>
-  </div>
+</header>
 
-  <div class="section-head"><h2>زما اپلیکیشنونه</h2></div>
 
-  <div class="search-box">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-    <input type="text" id="search" placeholder="د اپلیکیشن په نوم لټون وکړئ...">
-  </div>
+<main>
 
-  <div id="listArea"></div>
+<!-- ================= HERO ================= -->
 
-  <div class="about">
-    <img class="av2" src="profile.jpg" alt="Edris Zirak">
-    <div class="body">
-      <h3>زما په اړه</h3>
-      <p>زه Edris Zirak یم — دا پاڼه زما د APK/EXE اپلیکیشنونو کتابتون دی چې هرڅوک ورڅخه کولی شي غوره اپلیکیشنونه ومومي او ډونلوډ یې کړي.</p>
-    </div>
-  </div>
+<section class="hero container">
 
-  <button class="admin-toggle" id="adminToggle">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.5l-4.8 2.4.9-5.4-3.9-3.8 5.4-.8z"/></svg>
-    د اداره کوونکي ننوتل (نوی اپلیکیشن اپلوډ کول)
-  </button>
-  <div class="admin-panel" id="adminPanel">
-    <label>پاسورډ</label>
-    <input type="password" id="pw" placeholder="پاسورډ">
-    <label>GitHub Token</label>
-    <input type="password" id="ghToken" placeholder="ghp_... (یوازې دا ناستې لپاره کارول کیږي)">
-    <div class="hint">هر ځل چې اپلوډ کوئ دا لیکل کیږي — دا هیڅکله ذخیره نشي.</div>
-    <label>فایل غوره کړئ (APK یا EXE)</label>
-    <input type="file" id="fileInput" accept=".apk,.exe">
-    <button class="upload-btn" id="uploadBtn">اپلوډ کول</button>
-    <div class="progress" id="progressWrap"><div></div></div>
-    <div class="status" id="status"></div>
-  </div>
-
-  <footer>© 2026 Edris Zirak — zkapk. ټول حقونه خوندي دي.</footer>
-</div>
-
-<script src="github-config.js"></script>
-<script>
-const API_BASE = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents`;
-const RAW_BASE = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}`;
-let allApps = [];
-
-function fmtSize(bytes){
-  if(bytes < 1024*1024) return (bytes/1024).toFixed(0) + " KB";
-  return (bytes/(1024*1024)).toFixed(1) + " MB";
-}
-
-async function loadManifest(){
-  try{
-    const res = await fetch(`${API_BASE}/apps/manifest.json?ref=${GITHUB_BRANCH}&t=${Date.now()}`);
-    if(!res.ok) return { list: [], sha: null };
-    const data = await res.json();
-    const decoded = decodeURIComponent(escape(atob(data.content)));
-    return { list: JSON.parse(decoded), sha: data.sha };
-  }catch(e){ return { list: [], sha: null }; }
-}
-
-async function refresh(){
-  const { list } = await loadManifest();
-  allApps = list;
-  render();
-}
-
-function render(){
-  const q = document.getElementById('search').value.trim().toLowerCase();
-  const area = document.getElementById('listArea');
-  const filtered = allApps.filter(a => a.name.toLowerCase().includes(q));
-
-  document.getElementById('countTotal').textContent = allApps.length;
-  document.getElementById('countApk').textContent = allApps.filter(a=>a.ext==='apk').length;
-  document.getElementById('countExe').textContent = allApps.filter(a=>a.ext==='exe').length;
-
-  if(filtered.length === 0){
-    area.innerHTML = `<div class="empty">
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-      <b>هیڅ اپلیکیشن ونه موندل شو</b>${allApps.length===0 ? 'تر اوسه هیڅ اپلیکیشن اپلوډ شوی نه دی' : 'د لټون کلمه بدله کړئ'}
-    </div>`;
-    return;
-  }
-  area.innerHTML = `<div class="grid">${filtered.map(a => `
-    <div class="card">
-      <div class="icon-tile ${a.ext}">${a.ext.toUpperCase()}</div>
-      <div class="name">${a.name}</div>
-      <div class="cat">${a.ext === 'apk' ? 'Android Application' : 'Windows Program'}</div>
-      <div class="row">
-        <span class="size">${fmtSize(a.size)}</span>
-        <div class="btns">
-          <button class="btn-dl" onclick="window.open('${RAW_BASE}/${a.path}','_blank')">ډونلوډ</button>
-          <button class="btn-del" onclick="deleteApp('${a.path}')">لرې کول</button>
+    <div class="profile-wrapper">
+        <div class="profile">
+            <!-- خپل عکس دلته کېږده -->
+            <img src="profile.jpg" alt="Edris Zirak">
         </div>
-      </div>
-    </div>`).join('')}</div>`;
-}
+    </div>
 
-document.getElementById('search').addEventListener('input', render);
-document.getElementById('adminToggle').addEventListener('click', () => {
-  document.getElementById('adminPanel').classList.toggle('open');
-});
+    <h1>Edris <span>Zirak</span></h1>
 
-function toBase64(file){
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result.split(',')[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
+    <div class="role">
+        DEVELOPER &nbsp; • &nbsp; DESIGNER &nbsp; • &nbsp; CREATOR
+    </div>
 
-async function ghPut(path, contentBase64, message, sha, token){
-  const body = { message, content: contentBase64, branch: GITHUB_BRANCH };
-  if(sha) body.sha = sha;
-  const res = await fetch(`${API_BASE}/${path}`, {
-    method: 'PUT',
-    headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github+json' },
-    body: JSON.stringify(body)
-  });
-  if(!res.ok){ const e = await res.json(); throw new Error(e.message || 'GitHub error'); }
-  return res.json();
-}
+    <p class="hero-text">
+        I build useful, beautiful and powerful applications
+        that make life easier.
+    </p>
 
-document.getElementById('uploadBtn').addEventListener('click', async () => {
-  const pw = document.getElementById('pw').value;
-  const token = document.getElementById('ghToken').value.trim();
-  const file = document.getElementById('fileInput').files[0];
-  const status = document.getElementById('status');
-  const btn = document.getElementById('uploadBtn');
+    <div class="socials">
+        <a class="social" href="#" target="_blank">✈</a>
+        <a class="social" href="#" target="_blank">●</a>
+        <a class="social" href="#" target="_blank">◎</a>
+        <a class="social" href="#" target="_blank">▶</a>
+    </div>
 
-  if(pw !== UPLOAD_PASSWORD){ status.textContent = "پاسورډ سم نه دی."; return; }
-  if(!token){ status.textContent = "لومړی GitHub Token ولیکئ."; return; }
-  if(!file){ status.textContent = "لومړی فایل غوره کړئ."; return; }
-  const ext = file.name.split('.').pop().toLowerCase();
-  if(ext !== 'apk' && ext !== 'exe'){ status.textContent = "یوازې APK یا EXE فایلونه منل کیږي."; return; }
-  if(file.size > 25*1024*1024){ status.textContent = "دا فایل له ۲۵ MB زیات دی."; return; }
+</section>
 
-  btn.disabled = true;
-  document.getElementById('progressWrap').classList.add('on');
-  status.textContent = "اپلوډ کیږي...";
 
-  try{
-    const b64 = await toBase64(file);
-    const path = `apps/${Date.now()}_${file.name}`;
-    await ghPut(path, b64, `Add app: ${file.name}`, null, token);
+<!-- ================= STATS ================= -->
 
-    const { list, sha } = await loadManifest();
-    list.unshift({ name:file.name, ext:ext, size:file.size, path:path, uploadedAt:Date.now() });
-    const manifestB64 = btoa(unescape(encodeURIComponent(JSON.stringify(list, null, 2))));
-    await ghPut('apps/manifest.json', manifestB64, `Update manifest: add ${file.name}`, sha, token);
+<section class="container">
 
-    status.textContent = "بریالیتوب سره اپلوډ شو.";
-    document.getElementById('fileInput').value = '';
-    await refresh();
-  }catch(e){
-    status.textContent = "تیروتنه: " + e.message;
-  }finally{
-    btn.disabled = false;
-    document.getElementById('progressWrap').classList.remove('on');
-  }
-});
+    <div class="stats">
 
-async function deleteApp(path){
-  const pw = prompt("د لرې کولو لپاره پاسورډ ولیکئ:");
-  if(pw !== UPLOAD_PASSWORD){ alert("پاسورډ سم نه دی."); return; }
-  const token = prompt("GitHub Token ولیکئ:");
-  if(!token) return;
-  try{
-    const fileRes = await fetch(`${API_BASE}/${path}?ref=${GITHUB_BRANCH}`);
-    const fileData = await fileRes.json();
-    await fetch(`${API_BASE}/${path}`, {
-      method:'DELETE',
-      headers:{ 'Authorization':`token ${token}`, 'Accept':'application/vnd.github+json' },
-      body: JSON.stringify({ message:`Remove ${path}`, sha:fileData.sha, branch:GITHUB_BRANCH })
-    });
-    const { list, sha } = await loadManifest();
-    const updated = list.filter(a => a.path !== path);
-    const manifestB64 = btoa(unescape(encodeURIComponent(JSON.stringify(updated, null, 2))));
-    await ghPut('apps/manifest.json', manifestB64, `Update manifest: remove ${path}`, sha, token);
-    await refresh();
-  }catch(e){
-    alert("تیروتنه: " + e.message);
-  }
-}
+        <div class="stat">
+            <div class="stat-icon">📦</div>
+            <div>
+                <h3>12+</h3>
+                <p>Apps Published</p>
+            </div>
+        </div>
 
-refresh();
+        <div class="stat">
+            <div class="stat-icon">⬇</div>
+            <div>
+                <h3>50K+</h3>
+                <p>Downloads</p>
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-icon">👥</div>
+            <div>
+                <h3>20K+</h3>
+                <p>Happy Users</p>
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-icon">⭐</div>
+            <div>
+                <h3>4.8</h3>
+                <p>Average Rating</p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= APP SECTION ================= -->
+
+<section class="container" id="apps">
+
+    <div class="tools">
+
+        <div class="search">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="🔍  Search apps..."
+                onkeyup="searchApps()"
+            >
+        </div>
+
+        <div class="categories" id="categories">
+
+            <button class="category active"
+                    onclick="filterApps('all', this)">
+                All Apps
+            </button>
+
+            <button class="category"
+                    onclick="filterApps('tools', this)">
+                Tools
+            </button>
+
+            <button class="category"
+                    onclick="filterApps('education', this)">
+                Education
+            </button>
+
+            <button class="category"
+                    onclick="filterApps('media', this)">
+                Media
+            </button>
+
+            <button class="category"
+                    onclick="filterApps('productivity', this)">
+                Productivity
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="section-title">
+        <h2>My Applications</h2>
+        <a href="#" class="view-all">View All Apps →</a>
+    </div>
+
+
+    <div class="apps-grid" id="appGrid">
+
+        <!-- APP 1 -->
+
+        <article class="app-card" data-category="tools">
+
+            <div class="app-icon">🛡️</div>
+
+            <h3>NetGuard Pro</h3>
+
+            <div class="app-category">
+                Tools
+            </div>
+
+            <p class="app-description">
+                Network monitoring and security application.
+            </p>
+
+            <div class="app-info">
+                <span>⭐ 4.7</span>
+                <span>⬇ 10K+</span>
+            </div>
+
+            <a href="#" class="download-btn">
+                ⬇ Download
+            </a>
+
+        </article>
+
+
+        <!-- APP 2 -->
+
+        <article class="app-card" data-category="education">
+
+            <div class="app-icon">📖</div>
+
+            <h3>Study Point</h3>
+
+            <div class="app-category">
+                Education
+            </div>
+
+            <p class="app-description">
+                Your pocket companion for study and learning.
+            </p>
+
+            <div class="app-info">
+                <span>⭐ 4.8</span>
+                <span>⬇ 15K+</span>
+            </div>
+
+            <a href="#" class="download-btn">
+                ⬇ Download
+            </a>
+
+        </article>
+
+
+        <!-- APP 3 -->
+
+        <article class="app-card" data-category="tools">
+
+            <div class="app-icon">🚀</div>
+
+            <h3>Booster X</h3>
+
+            <div class="app-category">
+                Tools
+            </div>
+
+            <p class="app-description">
+                Clean, boost and optimize your device.
+            </p>
+
+            <div class="app-info">
+                <span>⭐ 4.6</span>
+                <span>⬇ 8K+</span>
+            </div>
+
+            <a href="#" class="download-btn">
+                ⬇ Download
+            </a>
+
+        </article>
+
+
+        <!-- APP 4 -->
+
+        <article class="app-card" data-category="media">
+
+            <div class="app-icon">▶</div>
+
+            <h3>Media Player</h3>
+
+            <div class="app-category">
+                Media
+            </div>
+
+            <p class="app-description">
+                Powerful media player with modern interface.
+            </p>
+
+            <div class="app-info">
+                <span>⭐ 4.9</span>
+                <span>⬇ 17K+</span>
+            </div>
+
+            <a href="#" class="download-btn">
+                ⬇ Download
+            </a>
+
+        </article>
+
+
+        <!-- APP 5 -->
+
+        <article class="app-card" data-category="productivity">
+
+            <div class="app-icon">📝</div>
+
+            <h3>Note Keeper</h3>
+
+            <div class="app-category">
+                Productivity
+            </div>
+
+            <p class="app-description">
+                Keep your important notes organized.
+            </p>
+
+            <div class="app-info">
+                <span>⭐ 4.5</span>
+                <span>⬇ 5K+</span>
+            </div>
+
+            <a href="#" class="download-btn">
+                ⬇ Download
+            </a>
+
+        </article>
+
+
+        <!-- APP 6 -->
+
+        <article class="app-card" data-category="tools">
+
+            <div class="app-icon">🧮</div>
+
+            <h3>Calc Smart</h3>
+
+            <div class="app-category">
+                Tools
+            </div>
+
+            <p class="app-description">
+                Smart calculator with advanced functions.
+            </p>
+
+            <div class="app-info">
+                <span>⭐ 4.4</span>
+                <span>⬇ 6K+</span>
+            </div>
+
+            <a href="#" class="download-btn">
+                ⬇ Download
+            </a>
+
+        </article>
+
+
+        <!-- APP 7 -->
+
+        <article class="app-card" data-category="media">
+
+            <div class="app-icon">🖼️</div>
+
+            <h3>Gallery Pro</h3>
+
+            <div class="app-category">
+                Media
+            </div>
+
+            <p class="app-description">
+                Beautiful gallery with powerful features.
+            </p>
+
+            <div class="app-info">
+                <span>⭐ 4.8</span>
+                <span>⬇ 9K+</span>
+            </div>
+
+            <a href="#" class="download-btn">
+                ⬇ Download
+            </a>
+
+        </article>
+
+
+        <!-- APP 8 -->
+
+        <article class="app-card" data-category="tools">
+
+            <div class="app-icon">🔐</div>
+
+            <h3>Privacy Guard</h3>
+
+            <div class="app-category">
+                Tools
+            </div>
+
+            <p class="app-description">
+                Protect your privacy and secure your data.
+            </p>
+
+            <div class="app-info">
+                <span>⭐ 4.6</span>
+                <span>⬇ 7K+</span>
+            </div>
+
+            <a href="#" class="download-btn">
+                ⬇ Download
+            </a>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ABOUT ================= -->
+
+<section class="container" id="about">
+
+    <div class="cta">
+
+        <div>
+            <h2>I create apps that make your life easier.</h2>
+            <p>
+                High performance, beautiful design and great user experience.
+            </p>
+        </div>
+
+        <a href="#contact" class="cta-btn">
+            Contact Me →
+        </a>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer id="contact">
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div>
+                <div class="footer-logo">
+                    ◈ EDRIS APPS
+                </div>
+
+                <p>
+                    Building useful digital solutions
+                    with passion and creativity.
+                </p>
+            </div>
+
+
+            <div>
+                <h4>Quick Links</h4>
+
+                <p>
+                    <a href="#">Home</a><br>
+                    <a href="#apps">Apps</a><br>
+                    <a href="#categories">Categories</a><br>
+                    <a href="#about">About</a><br>
+                    <a href="#contact">Contact</a>
+                </p>
+            </div>
+
+
+            <div>
+                <h4>Categories</h4>
+
+                <p>
+                    <a href="#">Tools</a><br>
+                    <a href="#">Education</a><br>
+                    <a href="#">Media</a><br>
+                    <a href="#">Productivity</a><br>
+                    <a href="#">All Apps</a>
+                </p>
+            </div>
+
+
+            <div>
+                <h4>Subscribe</h4>
+
+                <p>
+                    Get notified when I release new apps.
+                </p>
+
+                <div class="subscribe">
+                    <input
+                        type="email"
+                        placeholder="Enter your email"
+                    >
+
+                    <button>➤</button>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="copyright">
+            <span>
+                © 2026 Edris Zirak. All rights reserved.
+            </span>
+
+            <span>
+                Made with ❤️
+            </span>
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script>
+
+    /* ================= SEARCH ================= */
+
+    function searchApps() {
+
+        const input =
+            document.getElementById("searchInput")
+            .value
+            .toLowerCase();
+
+        const apps =
+            document.querySelectorAll(".app-card");
+
+        apps.forEach(app => {
+
+            const name =
+                app.querySelector("h3")
+                .textContent
+                .toLowerCase();
+
+            if (name.includes(input)) {
+                app.style.display = "";
+            } else {
+                app.style.display = "none";
+            }
+
+        });
+    }
+
+
+    /* ================= CATEGORY FILTER ================= */
+
+    function filterApps(category, button) {
+
+        document
+            .querySelectorAll(".category")
+            .forEach(btn => {
+                btn.classList.remove("active");
+            });
+
+        button.classList.add("active");
+
+        document
+            .querySelectorAll(".app-card")
+            .forEach(app => {
+
+                if (
+                    category === "all" ||
+                    app.dataset.category === category
+                ) {
+                    app.style.display = "";
+                } else {
+                    app.style.display = "none";
+                }
+
+            });
+    }
+
+
+    /* ================= THEME BUTTON ================= */
+
+    function toggleTheme() {
+
+        document.body.classList.toggle("light-mode");
+
+        const button =
+            document.querySelector(".theme-btn");
+
+        if (
+            document.body.classList.contains("light-mode")
+        ) {
+            button.textContent = "☀";
+        } else {
+            button.textContent = "☾";
+        }
+    }
+
 </script>
+
 </body>
 </html>
