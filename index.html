@@ -1,1253 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Edris Apps | Apps & Software</title>
-
-    <meta name="description"
-          content="Edris Apps - Discover useful, modern and powerful applications.">
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg: #020617;
-            --bg2: #050b20;
-            --card: rgba(10, 20, 48, 0.72);
-            --border: rgba(112, 80, 255, 0.28);
-            --purple: #9b4dff;
-            --blue: #168cff;
-            --cyan: #00d9ff;
-            --text: #ffffff;
-            --muted: #9ba7c7;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background:
-                radial-gradient(circle at 15% 25%, rgba(115, 0, 255, .18), transparent 28%),
-                radial-gradient(circle at 85% 30%, rgba(0, 130, 255, .16), transparent 28%),
-                linear-gradient(135deg, #01030d, #03081b 50%, #01030d);
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Background glow */
-        body::before,
-        body::after {
-            content: "";
-            position: fixed;
-            width: 450px;
-            height: 450px;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: .12;
-            z-index: -1;
-        }
-
-        body::before {
-            background: #7c3cff;
-            left: -200px;
-            top: 300px;
-        }
-
-        body::after {
-            background: #008cff;
-            right: -200px;
-            top: 500px;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        .container {
-            width: min(1180px, 92%);
-            margin: auto;
-        }
-
-        /* ================= NAVBAR ================= */
-
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(18px);
-            background: rgba(1, 5, 18, .72);
-            border-bottom: 1px solid rgba(255,255,255,.06);
-        }
-
-        .navbar {
-            height: 78px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 20px;
-            font-weight: 800;
-        }
-
-        .logo-icon {
-            width: 42px;
-            height: 42px;
-            display: grid;
-            place-items: center;
-            border-radius: 13px;
-            background: linear-gradient(135deg, #7b2cff, #3a62ff);
-            box-shadow: 0 0 25px rgba(130, 65, 255, .5);
-            font-size: 20px;
-        }
-
-        .logo span {
-            background: linear-gradient(90deg, #fff, #9d68ff);
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        nav {
-            display: flex;
-            gap: 35px;
-        }
-
-        nav a {
-            color: #c8d0e8;
-            font-size: 14px;
-            transition: .3s;
-        }
-
-        nav a:hover,
-        nav a.active {
-            color: #fff;
-        }
-
-        .theme-btn {
-            width: 42px;
-            height: 42px;
-            border: 1px solid rgba(255,255,255,.12);
-            border-radius: 50%;
-            background: rgba(255,255,255,.04);
-            color: white;
-            cursor: pointer;
-            font-size: 17px;
-        }
-
-        /* ================= HERO ================= */
-
-        .hero {
-            text-align: center;
-            padding: 70px 0 45px;
-            position: relative;
-        }
-
-        .profile-wrapper {
-            width: 205px;
-            height: 205px;
-            margin: auto;
-            padding: 6px;
-            border-radius: 50%;
-            background: conic-gradient(
-                #8b35ff,
-                #168cff,
-                #00d9ff,
-                #8b35ff
-            );
-            box-shadow:
-                0 0 35px rgba(120, 50, 255, .45),
-                0 0 90px rgba(0, 130, 255, .16);
-        }
-
-        .profile {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 5px solid #050a1c;
-            background: #0b132d;
-        }
-
-        .profile img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .hero h1 {
-            margin-top: 25px;
-            font-size: clamp(42px, 7vw, 70px);
-            font-weight: 900;
-            letter-spacing: -2px;
-        }
-
-        .hero h1 span {
-            background: linear-gradient(90deg, #fff, #884cff, #238cff);
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        .role {
-            margin-top: 10px;
-            letter-spacing: 5px;
-            font-size: 13px;
-            color: #d9dded;
-        }
-
-        .hero-text {
-            max-width: 600px;
-            margin: 18px auto;
-            color: var(--muted);
-            line-height: 1.7;
-        }
-
-        .socials {
-            display: flex;
-            justify-content: center;
-            gap: 14px;
-            margin-top: 25px;
-        }
-
-        .social {
-            width: 48px;
-            height: 48px;
-            display: grid;
-            place-items: center;
-            border-radius: 50%;
-            background: rgba(255,255,255,.05);
-            border: 1px solid rgba(150,100,255,.25);
-            transition: .3s;
-            font-size: 18px;
-        }
-
-        .social:hover {
-            transform: translateY(-5px);
-            background: linear-gradient(135deg, #752dff, #167fff);
-            box-shadow: 0 10px 30px rgba(110,60,255,.3);
-        }
-
-        /* ================= STATS ================= */
-
-        .stats {
-            margin: 25px auto 45px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            border: 1px solid var(--border);
-            border-radius: 22px;
-            overflow: hidden;
-            background: rgba(7, 16, 40, .7);
-            backdrop-filter: blur(20px);
-        }
-
-        .stat {
-            padding: 28px 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border-right: 1px solid rgba(255,255,255,.06);
-        }
-
-        .stat:last-child {
-            border: none;
-        }
-
-        .stat-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            display: grid;
-            place-items: center;
-            background: rgba(110,70,255,.15);
-            font-size: 22px;
-        }
-
-        .stat h3 {
-            font-size: 26px;
-        }
-
-        .stat p {
-            color: var(--muted);
-            font-size: 13px;
-            margin-top: 4px;
-        }
-
-        /* ================= SEARCH ================= */
-
-        .tools {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            margin-bottom: 35px;
-        }
-
-        .search {
-            flex: 1;
-            position: relative;
-        }
-
-        .search input {
-            width: 100%;
-            height: 50px;
-            border: 1px solid rgba(255,255,255,.1);
-            border-radius: 15px;
-            outline: none;
-            background: rgba(255,255,255,.04);
-            color: white;
-            padding: 0 18px;
-            font-size: 14px;
-        }
-
-        .categories {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-        }
-
-        .category {
-            white-space: nowrap;
-            border: 1px solid rgba(255,255,255,.08);
-            background: rgba(255,255,255,.04);
-            color: #cbd3e9;
-            padding: 13px 20px;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: .3s;
-        }
-
-        .category:hover,
-        .category.active {
-            color: white;
-            border-color: #874aff;
-            background: linear-gradient(135deg, #842aff, #3c5eff);
-            box-shadow: 0 8px 25px rgba(100,50,255,.25);
-        }
-
-        /* ================= SECTION TITLE ================= */
-
-        .section-title {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 22px;
-        }
-
-        .section-title h2 {
-            font-size: 25px;
-        }
-
-        .section-title h2::before {
-            content: "";
-            display: inline-block;
-            width: 5px;
-            height: 25px;
-            border-radius: 5px;
-            background: linear-gradient(#a13cff, #4777ff);
-            margin-right: 12px;
-            vertical-align: middle;
-        }
-
-        .view-all {
-            color: #a76cff;
-            font-size: 14px;
-        }
-
-        /* ================= APPS ================= */
-
-        .apps-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-
-        .app-card {
-            padding: 18px;
-            border-radius: 19px;
-            background:
-                linear-gradient(145deg, rgba(18,30,67,.9), rgba(6,14,34,.85));
-            border: 1px solid rgba(105,110,190,.22);
-            transition: .35s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .app-card::before {
-            content: "";
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: #713aff;
-            filter: blur(70px);
-            opacity: .08;
-            top: -50px;
-            right: -50px;
-        }
-
-        .app-card:hover {
-            transform: translateY(-7px);
-            border-color: rgba(140,80,255,.6);
-            box-shadow: 0 18px 45px rgba(0,0,0,.3);
-        }
-
-        .app-icon {
-            width: 78px;
-            height: 78px;
-            border-radius: 20px;
-            margin-bottom: 18px;
-            display: grid;
-            place-items: center;
-            font-size: 34px;
-            background: linear-gradient(135deg, #168dff, #193eea);
-            box-shadow: 0 12px 30px rgba(20,100,255,.25);
-        }
-
-        .app-card:nth-child(2) .app-icon {
-            background: linear-gradient(135deg, #b72cff, #5722dc);
-        }
-
-        .app-card:nth-child(3) .app-icon {
-            background: linear-gradient(135deg, #38dc5e, #008d63);
-        }
-
-        .app-card:nth-child(4) .app-icon {
-            background: linear-gradient(135deg, #ff6434, #e82917);
-        }
-
-        .app-card:nth-child(5) .app-icon {
-            background: linear-gradient(135deg, #20d5ff, #087cb8);
-        }
-
-        .app-card:nth-child(6) .app-icon {
-            background: linear-gradient(135deg, #ffbd20, #e66b00);
-        }
-
-        .app-card:nth-child(7) .app-icon {
-            background: linear-gradient(135deg, #ff3c9c, #c20b68);
-        }
-
-        .app-card:nth-child(8) .app-icon {
-            background: linear-gradient(135deg, #2672ff, #1939c9);
-        }
-
-        .app-card h3 {
-            font-size: 17px;
-            margin-bottom: 6px;
-        }
-
-        .app-category {
-            color: #8995b7;
-            font-size: 12px;
-        }
-
-        .app-description {
-            color: #aeb8d0;
-            font-size: 13px;
-            line-height: 1.6;
-            margin: 13px 0;
-            min-height: 42px;
-        }
-
-        .app-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 14px;
-            color: #cbd3e6;
-            font-size: 12px;
-        }
-
-        .download-btn {
-            width: 100%;
-            border: 1px solid rgba(120,70,255,.25);
-            border-radius: 10px;
-            padding: 11px;
-            text-align: center;
-            color: white;
-            background: linear-gradient(
-                90deg,
-                rgba(73,78,190,.25),
-                rgba(120,40,210,.25)
-            );
-            transition: .3s;
-        }
-
-        .download-btn:hover {
-            background: linear-gradient(90deg, #742cff, #276cff);
-        }
-
-        /* ================= CTA ================= */
-
-        .cta {
-            margin: 55px 0 25px;
-            padding: 35px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 30px;
-            background:
-                radial-gradient(circle at 20% 50%, rgba(120,40,255,.25), transparent 30%),
-                linear-gradient(100deg, #10113c, #091b42);
-            border: 1px solid rgba(110,80,255,.3);
-        }
-
-        .cta h2 {
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-
-        .cta p {
-            color: var(--muted);
-        }
-
-        .cta-btn {
-            padding: 14px 25px;
-            border-radius: 12px;
-            background: linear-gradient(90deg, #a02cff, #287cff);
-            font-weight: bold;
-            white-space: nowrap;
-            box-shadow: 0 10px 30px rgba(100,50,255,.25);
-        }
-
-        /* ================= FOOTER ================= */
-
-        footer {
-            border-top: 1px solid rgba(255,255,255,.07);
-            margin-top: 50px;
-            padding: 45px 0 25px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1.5fr;
-            gap: 40px;
-        }
-
-        .footer-logo {
-            font-size: 21px;
-            font-weight: bold;
-            margin-bottom: 12px;
-        }
-
-        footer p,
-        footer a {
-            color: #8995b5;
-            font-size: 13px;
-            line-height: 2;
-        }
-
-        footer h4 {
-            margin-bottom: 12px;
-        }
-
-        .subscribe {
-            display: flex;
-            margin-top: 12px;
-        }
-
-        .subscribe input {
-            min-width: 0;
-            flex: 1;
-            padding: 12px;
-            border: 1px solid rgba(255,255,255,.1);
-            border-radius: 10px 0 0 10px;
-            background: rgba(255,255,255,.04);
-            color: white;
-            outline: none;
-        }
-
-        .subscribe button {
-            width: 50px;
-            border: none;
-            border-radius: 0 10px 10px 0;
-            background: linear-gradient(135deg, #8c2cff, #3178ff);
-            color: white;
-            cursor: pointer;
-        }
-
-        .copyright {
-            border-top: 1px solid rgba(255,255,255,.06);
-            margin-top: 35px;
-            padding-top: 20px;
-            display: flex;
-            justify-content: space-between;
-            color: #68738f;
-            font-size: 12px;
-        }
-
-        /* ================= MOBILE ================= */
-
-        @media (max-width: 950px) {
-            .apps-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .stat:nth-child(2) {
-                border-right: none;
-            }
-
-            .stat:nth-child(-n+2) {
-                border-bottom: 1px solid rgba(255,255,255,.06);
-            }
-
-            .tools {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .footer-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 650px) {
-
-            nav {
-                display: none;
-            }
-
-            .navbar {
-                height: 68px;
-            }
-
-            .hero {
-                padding-top: 45px;
-            }
-
-            .profile-wrapper {
-                width: 160px;
-                height: 160px;
-            }
-
-            .hero h1 {
-                font-size: 42px;
-            }
-
-            .role {
-                font-size: 10px;
-                letter-spacing: 3px;
-            }
-
-            .stats {
-                grid-template-columns: 1fr;
-            }
-
-            .stat {
-                border-right: none;
-                border-bottom: 1px solid rgba(255,255,255,.06);
-            }
-
-            .stat:last-child {
-                border-bottom: none;
-            }
-
-            .apps-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .cta {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .copyright {
-                flex-direction: column;
-                gap: 8px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edris Apps</title>
+<meta name="description" content="Official Edris Apps website">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#020617;
+    color:#fff;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+body:before,body:after{
+    content:"";
+    position:fixed;
+    width:420px;height:420px;border-radius:50%;
+    filter:blur(120px);opacity:.16;z-index:-1;
+}
+body:before{background:#7c3aed;left:-180px;top:180px}
+body:after{background:#0284c7;right:-180px;top:480px}
+
+.container{width:min(1150px,92%);margin:auto}
+header{
+    position:sticky;top:0;z-index:20;
+    background:rgba(2,6,23,.78);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(255,255,255,.07)
+}
+.nav{
+    height:74px;display:flex;align-items:center;justify-content:space-between
+}
+.logo{font-size:20px;font-weight:800;letter-spacing:.5px}
+.logo span{color:#9b6cff}
+nav{display:flex;gap:30px}
+nav a{color:#b9c2d9;text-decoration:none;font-size:14px}
+nav a:hover{color:#fff}
+.menu{
+    display:none;background:none;border:1px solid #27314d;color:#fff;
+    width:42px;height:42px;border-radius:12px;font-size:20px
+}
+
+.hero{text-align:center;padding:75px 0 45px}
+.avatar{
+    width:190px;height:190px;margin:auto;padding:5px;border-radius:50%;
+    background:conic-gradient(#8b5cf6,#06b6d4,#2563eb,#8b5cf6);
+    box-shadow:0 0 45px rgba(124,58,237,.35)
+}
+.avatar img{
+    width:100%;height:100%;object-fit:cover;border-radius:50%;
+    border:5px solid #050b1c;display:block
+}
+.hero h1{
+    margin-top:24px;font-size:clamp(42px,7vw,68px);font-weight:900
+}
+.hero h1 span{
+    background:linear-gradient(90deg,#fff,#a855f7,#38bdf8);
+    -webkit-background-clip:text;color:transparent
+}
+.role{margin-top:10px;letter-spacing:4px;color:#d8dcef;font-size:12px}
+.hero p{
+    max-width:570px;margin:18px auto;color:#8f9ab7;line-height:1.7;font-size:15px
+}
+.socials{display:flex;justify-content:center;gap:12px;margin-top:24px}
+.social{
+    width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
+    text-decoration:none;color:#fff;background:#0b1228;
+    border:1px solid #293456;transition:.25s
+}
+.social:hover{transform:translateY(-4px);border-color:#8b5cf6;background:#21113f}
+
+.panel{
+    border:1px solid rgba(139,92,246,.25);
+    background:rgba(7,15,38,.72);
+    backdrop-filter:blur(15px);
+    border-radius:24px;padding:28px
+}
+.section-head{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:22px
+}
+.section-head h2{font-size:25px}
+.section-head h2:before{
+    content:"";display:inline-block;width:5px;height:25px;border-radius:4px;
+    background:linear-gradient(#a855f7,#38bdf8);margin-right:11px;vertical-align:-4px
+}
+.apps{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:18px
+}
+.empty{
+    min-height:250px;display:grid;place-items:center;text-align:center;
+    border:1px dashed #334064;border-radius:20px;color:#7f8aa8;
+    background:rgba(255,255,255,.015)
+}
+.empty-icon{font-size:40px;margin-bottom:10px}
+.empty h3{color:#dce2f1;margin-bottom:7px}
+.empty p{font-size:13px}
+
+.about{
+    margin-top:25px;display:grid;grid-template-columns:1.4fr 1fr;gap:18px
+}
+.about-box h2{margin-bottom:12px}
+.about-box p{color:#929db8;line-height:1.8;font-size:14px}
+.contact{
+    margin-top:25px;text-align:center;padding:38px;
+    background:linear-gradient(110deg,rgba(91,33,182,.22),rgba(14,116,144,.15));
+    border:1px solid rgba(139,92,246,.28);border-radius:24px
+}
+.contact h2{font-size:25px;margin-bottom:9px}
+.contact p{color:#929db8;margin-bottom:20px}
+.btn{
+    display:inline-block;padding:13px 23px;border-radius:12px;
+    background:linear-gradient(90deg,#8b5cf6,#2563eb);
+    color:#fff;text-decoration:none;font-weight:700;font-size:14px
+}
+footer{
+    margin-top:55px;padding:30px 0;border-top:1px solid rgba(255,255,255,.07)
+}
+.footer{
+    display:flex;justify-content:space-between;gap:20px;color:#68748f;font-size:12px
+}
+
+@media(max-width:750px){
+    nav{display:none}
+    .menu{display:block}
+    .apps{grid-template-columns:1fr}
+    .about{grid-template-columns:1fr}
+    .hero{padding-top:50px}
+    .avatar{width:155px;height:155px}
+    .panel{padding:18px}
+    .footer{flex-direction:column}
+}
+</style>
 </head>
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
-
 <header>
-    <div class="container navbar">
-
-        <a href="#" class="logo">
-            <div class="logo-icon">E</div>
-            <span>EDRIS APPS</span>
-        </a>
+    <div class="container nav">
+        <a href="#" class="logo">EDRIS <span>APPS</span></a>
 
         <nav>
-            <a href="#" class="active">Home</a>
+            <a href="#home">Home</a>
             <a href="#apps">Apps</a>
-            <a href="#categories">Categories</a>
             <a href="#about">About</a>
             <a href="#contact">Contact</a>
         </nav>
 
-        <button class="theme-btn" onclick="toggleTheme()">☾</button>
-
+        <button class="menu" onclick="toggleMenu()">☰</button>
     </div>
 </header>
 
-
 <main>
 
-<!-- ================= HERO ================= -->
+<section class="hero container" id="home">
 
-<section class="hero container">
-
-    <div class="profile-wrapper">
-        <div class="profile">
-            <!-- خپل عکس دلته کېږده -->
-            <img src="profile.jpg" alt="Edris Zirak">
-        </div>
+    <div class="avatar">
+        <!-- ستا اصلي عکس باید د index.html ترڅنګ د profile.jpg په نوم وي -->
+        <img src="profile.jpg" alt="Edris Zirak">
     </div>
 
     <h1>Edris <span>Zirak</span></h1>
 
-    <div class="role">
-        DEVELOPER &nbsp; • &nbsp; DESIGNER &nbsp; • &nbsp; CREATOR
-    </div>
+    <div class="role">DEVELOPER • DESIGNER • CREATOR</div>
 
-    <p class="hero-text">
-        I build useful, beautiful and powerful applications
-        that make life easier.
+    <p>
+        Welcome to my official apps website.
+        Here I will publish my own applications and useful digital projects.
     </p>
 
     <div class="socials">
-        <a class="social" href="#" target="_blank">✈</a>
-        <a class="social" href="#" target="_blank">●</a>
-        <a class="social" href="#" target="_blank">◎</a>
-        <a class="social" href="#" target="_blank">▶</a>
+        <!-- خپل اصلي لینکونه دلته ولیکه -->
+        <a class="social" href="#" aria-label="Telegram">✈</a>
+        <a class="social" href="#" aria-label="GitHub">●</a>
+        <a class="social" href="#" aria-label="Instagram">◎</a>
+        <a class="social" href="#" aria-label="YouTube">▶</a>
     </div>
 
 </section>
-
-
-<!-- ================= STATS ================= -->
-
-<section class="container">
-
-    <div class="stats">
-
-        <div class="stat">
-            <div class="stat-icon">📦</div>
-            <div>
-                <h3>12+</h3>
-                <p>Apps Published</p>
-            </div>
-        </div>
-
-        <div class="stat">
-            <div class="stat-icon">⬇</div>
-            <div>
-                <h3>50K+</h3>
-                <p>Downloads</p>
-            </div>
-        </div>
-
-        <div class="stat">
-            <div class="stat-icon">👥</div>
-            <div>
-                <h3>20K+</h3>
-                <p>Happy Users</p>
-            </div>
-        </div>
-
-        <div class="stat">
-            <div class="stat-icon">⭐</div>
-            <div>
-                <h3>4.8</h3>
-                <p>Average Rating</p>
-            </div>
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= APP SECTION ================= -->
 
 <section class="container" id="apps">
+    <div class="panel">
 
-    <div class="tools">
-
-        <div class="search">
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="🔍  Search apps..."
-                onkeyup="searchApps()"
-            >
+        <div class="section-head">
+            <h2>My Applications</h2>
         </div>
 
-        <div class="categories" id="categories">
-
-            <button class="category active"
-                    onclick="filterApps('all', this)">
-                All Apps
-            </button>
-
-            <button class="category"
-                    onclick="filterApps('tools', this)">
-                Tools
-            </button>
-
-            <button class="category"
-                    onclick="filterApps('education', this)">
-                Education
-            </button>
-
-            <button class="category"
-                    onclick="filterApps('media', this)">
-                Media
-            </button>
-
-            <button class="category"
-                    onclick="filterApps('productivity', this)">
-                Productivity
-            </button>
-
+        <!-- دلته تر اوسه هېڅ جعلي اپلیکیشن نشته -->
+        <div class="empty">
+            <div>
+                <div class="empty-icon">📱</div>
+                <h3>No applications yet</h3>
+                <p>
+                    Your real applications will appear here when you add them.
+                </p>
+            </div>
         </div>
 
     </div>
-
-
-    <div class="section-title">
-        <h2>My Applications</h2>
-        <a href="#" class="view-all">View All Apps →</a>
-    </div>
-
-
-    <div class="apps-grid" id="appGrid">
-
-        <!-- APP 1 -->
-
-        <article class="app-card" data-category="tools">
-
-            <div class="app-icon">🛡️</div>
-
-            <h3>NetGuard Pro</h3>
-
-            <div class="app-category">
-                Tools
-            </div>
-
-            <p class="app-description">
-                Network monitoring and security application.
-            </p>
-
-            <div class="app-info">
-                <span>⭐ 4.7</span>
-                <span>⬇ 10K+</span>
-            </div>
-
-            <a href="#" class="download-btn">
-                ⬇ Download
-            </a>
-
-        </article>
-
-
-        <!-- APP 2 -->
-
-        <article class="app-card" data-category="education">
-
-            <div class="app-icon">📖</div>
-
-            <h3>Study Point</h3>
-
-            <div class="app-category">
-                Education
-            </div>
-
-            <p class="app-description">
-                Your pocket companion for study and learning.
-            </p>
-
-            <div class="app-info">
-                <span>⭐ 4.8</span>
-                <span>⬇ 15K+</span>
-            </div>
-
-            <a href="#" class="download-btn">
-                ⬇ Download
-            </a>
-
-        </article>
-
-
-        <!-- APP 3 -->
-
-        <article class="app-card" data-category="tools">
-
-            <div class="app-icon">🚀</div>
-
-            <h3>Booster X</h3>
-
-            <div class="app-category">
-                Tools
-            </div>
-
-            <p class="app-description">
-                Clean, boost and optimize your device.
-            </p>
-
-            <div class="app-info">
-                <span>⭐ 4.6</span>
-                <span>⬇ 8K+</span>
-            </div>
-
-            <a href="#" class="download-btn">
-                ⬇ Download
-            </a>
-
-        </article>
-
-
-        <!-- APP 4 -->
-
-        <article class="app-card" data-category="media">
-
-            <div class="app-icon">▶</div>
-
-            <h3>Media Player</h3>
-
-            <div class="app-category">
-                Media
-            </div>
-
-            <p class="app-description">
-                Powerful media player with modern interface.
-            </p>
-
-            <div class="app-info">
-                <span>⭐ 4.9</span>
-                <span>⬇ 17K+</span>
-            </div>
-
-            <a href="#" class="download-btn">
-                ⬇ Download
-            </a>
-
-        </article>
-
-
-        <!-- APP 5 -->
-
-        <article class="app-card" data-category="productivity">
-
-            <div class="app-icon">📝</div>
-
-            <h3>Note Keeper</h3>
-
-            <div class="app-category">
-                Productivity
-            </div>
-
-            <p class="app-description">
-                Keep your important notes organized.
-            </p>
-
-            <div class="app-info">
-                <span>⭐ 4.5</span>
-                <span>⬇ 5K+</span>
-            </div>
-
-            <a href="#" class="download-btn">
-                ⬇ Download
-            </a>
-
-        </article>
-
-
-        <!-- APP 6 -->
-
-        <article class="app-card" data-category="tools">
-
-            <div class="app-icon">🧮</div>
-
-            <h3>Calc Smart</h3>
-
-            <div class="app-category">
-                Tools
-            </div>
-
-            <p class="app-description">
-                Smart calculator with advanced functions.
-            </p>
-
-            <div class="app-info">
-                <span>⭐ 4.4</span>
-                <span>⬇ 6K+</span>
-            </div>
-
-            <a href="#" class="download-btn">
-                ⬇ Download
-            </a>
-
-        </article>
-
-
-        <!-- APP 7 -->
-
-        <article class="app-card" data-category="media">
-
-            <div class="app-icon">🖼️</div>
-
-            <h3>Gallery Pro</h3>
-
-            <div class="app-category">
-                Media
-            </div>
-
-            <p class="app-description">
-                Beautiful gallery with powerful features.
-            </p>
-
-            <div class="app-info">
-                <span>⭐ 4.8</span>
-                <span>⬇ 9K+</span>
-            </div>
-
-            <a href="#" class="download-btn">
-                ⬇ Download
-            </a>
-
-        </article>
-
-
-        <!-- APP 8 -->
-
-        <article class="app-card" data-category="tools">
-
-            <div class="app-icon">🔐</div>
-
-            <h3>Privacy Guard</h3>
-
-            <div class="app-category">
-                Tools
-            </div>
-
-            <p class="app-description">
-                Protect your privacy and secure your data.
-            </p>
-
-            <div class="app-info">
-                <span>⭐ 4.6</span>
-                <span>⬇ 7K+</span>
-            </div>
-
-            <a href="#" class="download-btn">
-                ⬇ Download
-            </a>
-
-        </article>
-
-    </div>
-
 </section>
 
-
-<!-- ================= ABOUT ================= -->
-
 <section class="container" id="about">
+    <div class="about">
 
-    <div class="cta">
-
-        <div>
-            <h2>I create apps that make your life easier.</h2>
+        <div class="panel about-box">
+            <h2>About Me</h2>
             <p>
-                High performance, beautiful design and great user experience.
+                I create Android applications and digital projects.
+                This website is my personal space for publishing and sharing
+                my applications.
             </p>
         </div>
 
-        <a href="#contact" class="cta-btn">
-            Contact Me →
-        </a>
+        <div class="panel about-box">
+            <h2>My Website</h2>
+            <p>
+                A clean and modern place where visitors can discover,
+                view and download my real applications.
+            </p>
+        </div>
 
     </div>
+</section>
 
+<section class="container" id="contact">
+    <div class="contact">
+        <h2>Have a question?</h2>
+        <p>Contact me for information about my applications and projects.</p>
+        <a class="btn" href="mailto:your@email.com">Contact Me →</a>
+    </div>
 </section>
 
 </main>
 
-
-<!-- ================= FOOTER ================= -->
-
-<footer id="contact">
-
-    <div class="container">
-
-        <div class="footer-grid">
-
-            <div>
-                <div class="footer-logo">
-                    ◈ EDRIS APPS
-                </div>
-
-                <p>
-                    Building useful digital solutions
-                    with passion and creativity.
-                </p>
-            </div>
-
-
-            <div>
-                <h4>Quick Links</h4>
-
-                <p>
-                    <a href="#">Home</a><br>
-                    <a href="#apps">Apps</a><br>
-                    <a href="#categories">Categories</a><br>
-                    <a href="#about">About</a><br>
-                    <a href="#contact">Contact</a>
-                </p>
-            </div>
-
-
-            <div>
-                <h4>Categories</h4>
-
-                <p>
-                    <a href="#">Tools</a><br>
-                    <a href="#">Education</a><br>
-                    <a href="#">Media</a><br>
-                    <a href="#">Productivity</a><br>
-                    <a href="#">All Apps</a>
-                </p>
-            </div>
-
-
-            <div>
-                <h4>Subscribe</h4>
-
-                <p>
-                    Get notified when I release new apps.
-                </p>
-
-                <div class="subscribe">
-                    <input
-                        type="email"
-                        placeholder="Enter your email"
-                    >
-
-                    <button>➤</button>
-                </div>
-            </div>
-
-        </div>
-
-
-        <div class="copyright">
-            <span>
-                © 2026 Edris Zirak. All rights reserved.
-            </span>
-
-            <span>
-                Made with ❤️
-            </span>
-        </div>
-
+<footer>
+    <div class="container footer">
+        <span>© 2026 Edris Zirak. All rights reserved.</span>
+        <span>EDRIS APPS</span>
     </div>
-
 </footer>
 
-
 <script>
-
-    /* ================= SEARCH ================= */
-
-    function searchApps() {
-
-        const input =
-            document.getElementById("searchInput")
-            .value
-            .toLowerCase();
-
-        const apps =
-            document.querySelectorAll(".app-card");
-
-        apps.forEach(app => {
-
-            const name =
-                app.querySelector("h3")
-                .textContent
-                .toLowerCase();
-
-            if (name.includes(input)) {
-                app.style.display = "";
-            } else {
-                app.style.display = "none";
-            }
-
-        });
+function toggleMenu(){
+    const nav = document.querySelector("nav");
+    if(nav.style.display === "flex"){
+        nav.style.display = "";
+    }else{
+        nav.style.display = "flex";
+        nav.style.position = "absolute";
+        nav.style.top = "74px";
+        nav.style.left = "0";
+        nav.style.right = "0";
+        nav.style.padding = "20px";
+        nav.style.background = "#050a1b";
+        nav.style.flexDirection = "column";
+        nav.style.alignItems = "center";
     }
-
-
-    /* ================= CATEGORY FILTER ================= */
-
-    function filterApps(category, button) {
-
-        document
-            .querySelectorAll(".category")
-            .forEach(btn => {
-                btn.classList.remove("active");
-            });
-
-        button.classList.add("active");
-
-        document
-            .querySelectorAll(".app-card")
-            .forEach(app => {
-
-                if (
-                    category === "all" ||
-                    app.dataset.category === category
-                ) {
-                    app.style.display = "";
-                } else {
-                    app.style.display = "none";
-                }
-
-            });
-    }
-
-
-    /* ================= THEME BUTTON ================= */
-
-    function toggleTheme() {
-
-        document.body.classList.toggle("light-mode");
-
-        const button =
-            document.querySelector(".theme-btn");
-
-        if (
-            document.body.classList.contains("light-mode")
-        ) {
-            button.textContent = "☀";
-        } else {
-            button.textContent = "☾";
-        }
-    }
-
+}
 </script>
 
 </body>
