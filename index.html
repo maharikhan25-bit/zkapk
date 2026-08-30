@@ -3,128 +3,220 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>زما د اپلیکیشنونو کتابتون</title>
+<title>Edris Zirak — zkapk</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#12161d; --surface:#1b212b; --surface-2:#212836; --border:#2a3140;
-    --text:#e7eaee; --text-dim:#8a93a3;
-    --apk:#5fbe8d; --apk-dim:#1e3b2c;
-    --exe:#f2a93b; --exe-dim:#3c2f14;
-    --danger:#e2624f;
+    --bg:#0a0d16; --bg-2:#10141f;
+    --surface:#151a27; --surface-2:#1b2233;
+    --border:#262e42; --border-soft:#1f2635;
+    --text:#f1f3f8; --text-dim:#9199ad; --text-faint:#5c6478;
+    --apk-a:#22c98e; --apk-b:#0e9e6d;
+    --exe-a:#ffb648; --exe-b:#ff8a3d;
+    --blue-a:#4f8dff; --blue-b:#2f5fe0;
+    --violet-a:#a78bfa; --violet-b:#7c5cf5;
+    --danger:#ff6b6b;
   }
   *{box-sizing:border-box;}
   body{
-    margin:0; background:var(--bg); color:var(--text);
-    font-family:'Vazirmatn',sans-serif; min-height:100vh;
-    padding:32px 20px 80px;
+    margin:0; background:
+      radial-gradient(1000px 600px at 20% -10%, rgba(124,92,245,.20), transparent 55%),
+      radial-gradient(800px 500px at 100% 0%, rgba(79,141,255,.14), transparent 55%),
+      var(--bg);
+    color:var(--text); font-family:'Vazirmatn',sans-serif; min-height:100vh;
   }
-  .wrap{max-width:960px; margin:0 auto;}
-  header{margin-bottom:28px;}
-  h1{font-size:28px; font-weight:800; margin:0 0 8px;}
-  .subtitle{color:var(--text-dim); font-size:15px; margin:0 0 14px; line-height:1.8;}
-  .note{
-    background:var(--surface); border:1px solid var(--border); border-radius:10px;
-    padding:12px 16px; font-size:13px; color:var(--text-dim); line-height:1.9;
+  .wrap{max-width:1000px; margin:0 auto; padding:28px 20px 90px;}
+
+  nav{display:flex; align-items:center; justify-content:space-between; padding:6px 0 34px;}
+  .brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:17px;}
+  .brand .hex{
+    width:34px; height:34px; border-radius:10px;
+    background:linear-gradient(135deg, var(--violet-a), var(--blue-a));
+    display:flex; align-items:center; justify-content:center; font-weight:900; color:#0a0d16;
   }
-  .toolbar{
-    display:flex; gap:12px; margin:26px 0 20px; flex-wrap:wrap; align-items:center;
+
+  .hero{text-align:center; padding:10px 0 8px;}
+  .avatar-ring{
+    width:150px; height:150px; border-radius:50%; margin:0 auto 22px; padding:4px;
+    background:conic-gradient(from 180deg, var(--violet-a), var(--blue-a), var(--apk-a), var(--violet-a));
+    box-shadow:0 0 40px -8px rgba(124,92,245,.5);
   }
+  .avatar-ring img{width:100%; height:100%; border-radius:50%; object-fit:cover; display:block; border:4px solid var(--bg);}
+  .hero h1{font-size:34px; font-weight:900; margin:0 0 6px; letter-spacing:-.5px;}
+  .hero h1 span{
+    background:linear-gradient(90deg, var(--violet-a), var(--blue-a));
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .role{font-size:12px; letter-spacing:2px; color:var(--text-faint); font-weight:700; margin-bottom:14px;}
+  .tagline{color:var(--text-dim); font-size:15px; max-width:520px; margin:0 auto 26px; line-height:1.9;}
+
+  .stats{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:34px;}
+  .stat{
+    background:var(--surface); border:1px solid var(--border-soft); border-radius:16px;
+    padding:14px 22px; display:flex; align-items:center; gap:12px; min-width:150px;
+  }
+  .stat .ic{
+    width:38px; height:38px; border-radius:11px; flex:0 0 auto;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .stat .num{font-family:'JetBrains Mono',monospace; font-size:19px; font-weight:800; line-height:1.1;}
+  .stat .lbl{font-size:11px; color:var(--text-faint); margin-top:2px;}
+
+  .section-head{display:flex; align-items:center; justify-content:space-between; margin:8px 0 16px;}
+  .section-head h2{font-size:19px; font-weight:800; margin:0; display:flex; align-items:center; gap:10px;}
+  .section-head h2::before{content:""; width:4px; height:20px; border-radius:3px; background:linear-gradient(180deg, var(--violet-a), var(--blue-a));}
+
+  .search-box{position:relative; margin-bottom:20px;}
+  .search-box svg{position:absolute; right:16px; top:50%; transform:translateY(-50%); opacity:.5; pointer-events:none;}
   input[type=text], input[type=password]{
-    flex:1; min-width:200px; background:var(--surface); border:1px solid var(--border);
-    color:var(--text); padding:12px 14px; border-radius:10px; font-family:inherit; font-size:14px;
+    width:100%; background:var(--surface); border:1px solid var(--border);
+    color:var(--text); padding:14px 46px 14px 16px; border-radius:14px; font-family:inherit; font-size:14px;
   }
-  input[type=text]:focus, input[type=password]:focus{outline:2px solid var(--exe); outline-offset:1px;}
-  button{
-    font-family:inherit; font-size:14px; cursor:pointer; border-radius:10px; border:1px solid var(--border);
-    padding:12px 18px; background:var(--surface-2); color:var(--text); font-weight:600;
-  }
-  button:hover{border-color:var(--exe);}
-  button:focus-visible{outline:2px solid var(--exe); outline-offset:2px;}
-  button:disabled{opacity:.5; cursor:not-allowed;}
-  .grid{
-    display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px;
-  }
+  input[type=text]:focus, input[type=password]:focus{outline:none; border-color:var(--violet-a); box-shadow:0 0 0 3px rgba(167,139,250,.15);}
+
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:16px; margin-bottom:36px;}
   .card{
-    background:var(--surface); border:1px solid var(--border); border-radius:14px;
-    overflow:hidden; animation:in .3s ease;
+    background:var(--surface); border:1px solid var(--border-soft); border-radius:20px;
+    padding:20px; transition:transform .18s, border-color .18s, box-shadow .18s;
   }
-  @keyframes in{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
-  .card-top{padding:16px 16px 12px; display:flex; align-items:center; gap:12px;}
-  .badge{
-    font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600;
-    padding:5px 9px; border-radius:6px; letter-spacing:.5px;
+  .card:hover{transform:translateY(-4px); border-color:rgba(167,139,250,.4); box-shadow:0 14px 30px -12px rgba(0,0,0,.5);}
+  .card .icon-tile{
+    width:54px; height:54px; border-radius:16px; margin-bottom:14px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono',monospace; font-weight:800; font-size:13px; color:#0a0d16;
   }
-  .badge.apk{background:var(--apk-dim); color:var(--apk);}
-  .badge.exe{background:var(--exe-dim); color:var(--exe);}
-  .card-name{font-size:14px; font-weight:600; word-break:break-word; flex:1;}
-  .perforation{
-    height:0; border-top:1.5px dashed var(--border); margin:0 16px; position:relative;
+  .icon-tile.apk{background:linear-gradient(135deg, var(--apk-a), var(--apk-b)); box-shadow:0 8px 18px -6px rgba(34,201,142,.5);}
+  .icon-tile.exe{background:linear-gradient(135deg, var(--exe-a), var(--exe-b)); box-shadow:0 8px 18px -6px rgba(255,138,61,.5);}
+  .card .name{font-size:14.5px; font-weight:700; margin-bottom:4px; word-break:break-word; line-height:1.4;}
+  .card .cat{font-size:11.5px; color:var(--text-faint); margin-bottom:14px;}
+  .card .row{display:flex; align-items:center; justify-content:space-between; gap:8px;}
+  .card .size{font-size:11.5px; color:var(--text-dim); font-family:'JetBrains Mono',monospace;}
+  .card .btns{display:flex; gap:6px;}
+  button{
+    font-family:inherit; cursor:pointer; border-radius:9px; border:1px solid var(--border);
+    background:var(--surface-2); color:var(--text); font-weight:600; font-size:12px; padding:7px 12px;
+    transition:transform .12s, border-color .15s;
   }
-  .perforation::before,.perforation::after{
-    content:""; position:absolute; top:-7px; width:14px; height:14px; border-radius:50%; background:var(--bg);
-  }
-  .perforation::before{right:-23px;} .perforation::after{left:-23px;}
-  .card-bottom{padding:12px 16px 16px; display:flex; justify-content:space-between; align-items:center; gap:10px;}
-  .size{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim);}
-  .actions{display:flex; gap:8px;}
-  .actions button{padding:8px 12px; font-size:12px;}
-  .actions .del{color:var(--danger); border-color:var(--danger);}
+  button:hover{border-color:var(--violet-a); transform:translateY(-1px);}
+  button:disabled{opacity:.5; cursor:not-allowed; transform:none;}
+  .btn-dl{background:linear-gradient(135deg, rgba(167,139,250,.25), rgba(79,141,255,.15)); border-color:rgba(167,139,250,.4);}
+  .btn-del{color:var(--danger); border-color:rgba(255,107,107,.4); background:rgba(255,107,107,.08);}
+
   .empty{
-    text-align:center; padding:70px 20px; color:var(--text-dim); border:1px dashed var(--border);
-    border-radius:14px;
+    text-align:center; padding:60px 20px; color:var(--text-dim);
+    border:1.5px dashed var(--border); border-radius:22px; margin-bottom:34px;
+    background:radial-gradient(400px 200px at 50% 0%, rgba(124,92,245,.08), transparent);
   }
+  .empty svg{opacity:.5; margin-bottom:12px;}
   .empty b{color:var(--text); display:block; margin-bottom:6px; font-size:16px;}
-  .admin-toggle{font-size:12px; color:var(--text-dim); background:none; border:none; text-decoration:underline; padding:0; margin-top:24px;}
-  .admin-panel{
-    display:none; margin-top:16px; background:var(--surface); border:1px solid var(--border);
-    border-radius:14px; padding:20px;
+
+  .about{
+    display:flex; align-items:center; gap:24px; background:var(--surface);
+    border:1px solid var(--border-soft); border-radius:22px; padding:26px; margin-bottom:30px; flex-wrap:wrap;
   }
+  .about .av2{
+    width:56px; height:56px; border-radius:50%; flex:0 0 auto; object-fit:cover;
+    border:2px solid var(--violet-a);
+  }
+  .about .body{flex:1; min-width:220px;}
+  .about h3{margin:0 0 8px; font-size:16px;}
+  .about p{margin:0; color:var(--text-dim); font-size:14px; line-height:1.9;}
+
+  .admin-toggle{
+    font-size:13px; color:var(--text-dim); background:none; border:none; padding:10px 0; cursor:pointer;
+    display:flex; align-items:center; gap:8px; margin-bottom:6px;
+  }
+  .admin-panel{display:none; background:var(--surface); border:1px solid var(--border-soft); border-radius:18px; padding:22px;}
   .admin-panel.open{display:block;}
-  .admin-panel label{display:block; font-size:12px; color:var(--text-dim); margin:10px 0 4px;}
-  .admin-panel input[type=password], .admin-panel input[type=file], .admin-panel input[type=text]{
+  .admin-panel label{display:block; font-size:12px; color:var(--text-dim); margin:12px 0 6px; font-weight:600;}
+  .admin-panel input[type=password], .admin-panel input[type=file]{
     width:100%; background:var(--surface-2); border:1px solid var(--border); color:var(--text);
-    padding:10px 12px; border-radius:8px; font-family:inherit; margin-bottom:6px;
+    padding:11px 14px; border-radius:10px; font-family:inherit; margin-bottom:4px;
   }
-  .progress{height:6px; background:var(--surface-2); border-radius:4px; overflow:hidden; margin-top:10px; display:none;}
+  .upload-btn{
+    margin-top:14px; width:100%; padding:13px; border-radius:12px; font-weight:700; font-size:14px;
+    background:linear-gradient(135deg, var(--violet-a), var(--blue-b)); border:none; color:#fff;
+  }
+  .progress{height:6px; background:var(--surface-2); border-radius:4px; overflow:hidden; margin-top:12px; display:none;}
   .progress.on{display:block;}
-  .progress div{height:100%; background:var(--exe); width:40%; animation:load 1s ease-in-out infinite;}
+  .progress div{height:100%; width:40%; border-radius:4px; background:linear-gradient(90deg, var(--violet-a), var(--apk-a)); animation:load 1s ease-in-out infinite;}
   @keyframes load{0%{margin-right:0%;} 50%{margin-right:60%;} 100%{margin-right:0%;}}
   .status{font-size:13px; margin-top:10px; color:var(--text-dim);}
-  .hint{font-size:11px; color:var(--text-dim); margin-top:2px; line-height:1.7;}
+  .hint{font-size:11px; color:var(--text-faint); margin-top:2px; line-height:1.7;}
+
+  footer{text-align:center; padding:30px 0 10px; color:var(--text-faint); font-size:12px; border-top:1px solid var(--border-soft); margin-top:40px;}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <h1>زما د اپلیکیشنونو کتابتون</h1>
-    <p class="subtitle">خپل APK او EXE فایلونه دلته خوندي کړئ — هرڅوک کولی شي دا پاڼه پرانیزي، لټون وکړي او ډونلوډ یې کړي.</p>
-    <div class="note">یادونه: د امنیت له مخې براوزر نصب فایلونه پخپله نشي چالولی؛ دا پاڼه یوازې د ساتلو او ډونلوډ کولو لپاره ده.</div>
-  </header>
+  <nav>
+    <div class="brand"><span class="hex">E</span> EDRIS ZIRAK</div>
+  </nav>
 
-  <div class="toolbar">
+  <div class="hero">
+    <div class="avatar-ring"><img src="profile.jpg" alt="Edris Zirak"></div>
+    <h1>Edris <span>Zirak</span></h1>
+    <div class="role">DEVELOPER &nbsp;|&nbsp; ZKAPK</div>
+    <p class="tagline">خپل APK او EXE اپلیکیشنونه دلته خوندي کوم — هرڅوک کولی شي دا پاڼه پرانیزي، لټون وکړي او ډونلوډ یې کړي.</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="ic" style="background:linear-gradient(135deg,var(--violet-a),var(--blue-b))">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+      </div>
+      <div><div class="num" id="countTotal">0</div><div class="lbl">ټول اپلیکیشنونه</div></div>
+    </div>
+    <div class="stat">
+      <div class="ic" style="background:linear-gradient(135deg,var(--apk-a),var(--apk-b))">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2v13m0 0-4-4m4 4 4-4M4 21h16"/></svg>
+      </div>
+      <div><div class="num" id="countApk">0</div><div class="lbl">APK فایلونه</div></div>
+    </div>
+    <div class="stat">
+      <div class="ic" style="background:linear-gradient(135deg,var(--exe-a),var(--exe-b))">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/></svg>
+      </div>
+      <div><div class="num" id="countExe">0</div><div class="lbl">EXE فایلونه</div></div>
+    </div>
+  </div>
+
+  <div class="section-head"><h2>زما اپلیکیشنونه</h2></div>
+
+  <div class="search-box">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
     <input type="text" id="search" placeholder="د اپلیکیشن په نوم لټون وکړئ...">
   </div>
 
   <div id="listArea"></div>
 
-  <button class="admin-toggle" id="adminToggle">د اداره کوونکي ننوتل (نوی اپلیکیشن اپلوډ کول)</button>
+  <div class="about">
+    <img class="av2" src="profile.jpg" alt="Edris Zirak">
+    <div class="body">
+      <h3>زما په اړه</h3>
+      <p>زه Edris Zirak یم — دا پاڼه زما د APK/EXE اپلیکیشنونو کتابتون دی چې هرڅوک ورڅخه کولی شي غوره اپلیکیشنونه ومومي او ډونلوډ یې کړي.</p>
+    </div>
+  </div>
+
+  <button class="admin-toggle" id="adminToggle">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.5l-4.8 2.4.9-5.4-3.9-3.8 5.4-.8z"/></svg>
+    د اداره کوونکي ننوتل (نوی اپلیکیشن اپلوډ کول)
+  </button>
   <div class="admin-panel" id="adminPanel">
     <label>پاسورډ</label>
     <input type="password" id="pw" placeholder="پاسورډ">
-
     <label>GitHub Token</label>
-    <input type="password" id="ghToken" placeholder="ghp_... (یوازې دا ناستې لپاره کارول کیږي، نه ساتل کیږي)">
-    <div class="hint">هر ځل چې اپلوډ کوئ دا لیکل کیږي — دا هیڅکله ذخیره یا خوندي نشي.</div>
-
+    <input type="password" id="ghToken" placeholder="ghp_... (یوازې دا ناستې لپاره کارول کیږي)">
+    <div class="hint">هر ځل چې اپلوډ کوئ دا لیکل کیږي — دا هیڅکله ذخیره نشي.</div>
     <label>فایل غوره کړئ (APK یا EXE)</label>
     <input type="file" id="fileInput" accept=".apk,.exe">
-
-    <button id="uploadBtn">اپلوډ کول</button>
+    <button class="upload-btn" id="uploadBtn">اپلوډ کول</button>
     <div class="progress" id="progressWrap"><div></div></div>
     <div class="status" id="status"></div>
   </div>
+
+  <footer>© 2026 Edris Zirak — zkapk. ټول حقونه خوندي دي.</footer>
 </div>
 
 <script src="github-config.js"></script>
@@ -145,9 +237,7 @@ async function loadManifest(){
     const data = await res.json();
     const decoded = decodeURIComponent(escape(atob(data.content)));
     return { list: JSON.parse(decoded), sha: data.sha };
-  }catch(e){
-    return { list: [], sha: null };
-  }
+  }catch(e){ return { list: [], sha: null }; }
 }
 
 async function refresh(){
@@ -160,22 +250,28 @@ function render(){
   const q = document.getElementById('search').value.trim().toLowerCase();
   const area = document.getElementById('listArea');
   const filtered = allApps.filter(a => a.name.toLowerCase().includes(q));
+
+  document.getElementById('countTotal').textContent = allApps.length;
+  document.getElementById('countApk').textContent = allApps.filter(a=>a.ext==='apk').length;
+  document.getElementById('countExe').textContent = allApps.filter(a=>a.ext==='exe').length;
+
   if(filtered.length === 0){
-    area.innerHTML = `<div class="empty"><b>هیڅ اپلیکیشن ونه موندل شو</b>${allApps.length===0 ? 'تر اوسه هیڅ اپلیکیشن اپلوډ شوی نه دی' : 'د لټون کلمه بدله کړئ'}</div>`;
+    area.innerHTML = `<div class="empty">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+      <b>هیڅ اپلیکیشن ونه موندل شو</b>${allApps.length===0 ? 'تر اوسه هیڅ اپلیکیشن اپلوډ شوی نه دی' : 'د لټون کلمه بدله کړئ'}
+    </div>`;
     return;
   }
   area.innerHTML = `<div class="grid">${filtered.map(a => `
     <div class="card">
-      <div class="card-top">
-        <span class="badge ${a.ext}">${a.ext.toUpperCase()}</span>
-        <span class="card-name">${a.name}</span>
-      </div>
-      <div class="perforation"></div>
-      <div class="card-bottom">
+      <div class="icon-tile ${a.ext}">${a.ext.toUpperCase()}</div>
+      <div class="name">${a.name}</div>
+      <div class="cat">${a.ext === 'apk' ? 'Android Application' : 'Windows Program'}</div>
+      <div class="row">
         <span class="size">${fmtSize(a.size)}</span>
-        <div class="actions">
-          <button onclick="window.open('${RAW_BASE}/${a.path}','_blank')">ډونلوډ</button>
-          <button class="del" onclick="deleteApp('${a.path}')">لرې کول</button>
+        <div class="btns">
+          <button class="btn-dl" onclick="window.open('${RAW_BASE}/${a.path}','_blank')">ډونلوډ</button>
+          <button class="btn-del" onclick="deleteApp('${a.path}')">لرې کول</button>
         </div>
       </div>
     </div>`).join('')}</div>`;
@@ -219,7 +315,7 @@ document.getElementById('uploadBtn').addEventListener('click', async () => {
   if(!file){ status.textContent = "لومړی فایل غوره کړئ."; return; }
   const ext = file.name.split('.').pop().toLowerCase();
   if(ext !== 'apk' && ext !== 'exe'){ status.textContent = "یوازې APK یا EXE فایلونه منل کیږي."; return; }
-  if(file.size > 25*1024*1024){ status.textContent = "دا فایل له ۲۵ MB زیات دی — نشي اپلوډ کیدلی."; return; }
+  if(file.size > 25*1024*1024){ status.textContent = "دا فایل له ۲۵ MB زیات دی."; return; }
 
   btn.disabled = true;
   document.getElementById('progressWrap').classList.add('on');
