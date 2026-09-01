@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ps" dir="rtl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Edris Zirak — zkapk</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#090b11; --bg-2:#0f131c;
@@ -16,7 +16,6 @@
     --exe-a:#ffb648; --exe-b:#ff8a3d;
     --blue-a:#5b9bff; --blue-b:#3566e8;
     --violet-a:#a78bfa; --violet-b:#7c5cf5;
-    --danger:#ff6b6b;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -25,49 +24,29 @@
       radial-gradient(1100px 650px at 18% -8%, rgba(124,92,245,.22), transparent 55%),
       radial-gradient(900px 550px at 105% 5%, rgba(79,141,255,.16), transparent 55%),
       var(--bg);
-    color:var(--text); font-family:'Vazirmatn',sans-serif; min-height:100vh;
+    color:var(--text); font-family:'Sora',sans-serif; min-height:100vh;
   }
   a{color:inherit; text-decoration:none;}
   .wrap{max-width:1040px; margin:0 auto; padding:0 22px;}
 
-  header.top{
-    position:sticky; top:0; z-index:20; backdrop-filter:blur(14px);
-    background:rgba(9,11,17,.75); border-bottom:1px solid var(--border-soft);
-  }
+  header.top{position:sticky; top:0; z-index:20; backdrop-filter:blur(14px); background:rgba(9,11,17,.75); border-bottom:1px solid var(--border-soft);}
   nav{display:flex; align-items:center; justify-content:space-between; padding:16px 0; max-width:1040px; margin:0 auto; padding-inline:22px;}
   .brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:16px; letter-spacing:.3px;}
-  .brand .hex{
-    width:32px; height:32px; border-radius:9px;
-    background:linear-gradient(135deg, var(--violet-a), var(--blue-a));
-    display:flex; align-items:center; justify-content:center; font-weight:900; color:#0a0d16; font-size:15px;
-  }
+  .brand .hex{width:32px; height:32px; border-radius:9px; background:linear-gradient(135deg, var(--violet-a), var(--blue-a)); display:flex; align-items:center; justify-content:center; font-weight:900; color:#0a0d16; font-size:15px;}
   .nav-links{display:flex; gap:26px; font-size:14px; color:var(--text-dim); font-weight:600;}
   .nav-links a:hover{color:var(--text);}
 
   .hero{text-align:center; padding:56px 0 8px;}
-  .avatar-ring{
-    width:136px; height:136px; border-radius:50%; margin:0 auto 24px; padding:3px;
-    background:conic-gradient(from 180deg, var(--violet-a), var(--blue-a), var(--apk-a), var(--violet-a));
-    box-shadow:0 0 50px -10px rgba(124,92,245,.55);
-  }
+  .avatar-ring{width:136px; height:136px; border-radius:50%; margin:0 auto 24px; padding:3px; background:conic-gradient(from 180deg, var(--violet-a), var(--blue-a), var(--apk-a), var(--violet-a)); box-shadow:0 0 50px -10px rgba(124,92,245,.55);}
   .avatar-ring img{width:100%; height:100%; border-radius:50%; object-fit:cover; display:block; border:4px solid var(--bg);}
   .hero .role{font-size:11.5px; letter-spacing:3px; color:var(--violet-a); font-weight:700; margin-bottom:12px; text-transform:uppercase;}
   .hero h1{font-size:38px; font-weight:900; margin:0 0 14px; letter-spacing:-.8px; line-height:1.15;}
-  .hero h1 span{
-    background:linear-gradient(90deg, var(--violet-a), var(--blue-a));
-    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
-  }
+  .hero h1 span{background:linear-gradient(90deg, var(--violet-a), var(--blue-a)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;}
   .tagline{color:var(--text-dim); font-size:15.5px; max-width:540px; margin:0 auto 30px; line-height:1.95;}
 
   .stats{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; max-width:560px; margin:0 auto 54px;}
-  .stat{
-    background:var(--surface); border:1px solid var(--border-soft); border-radius:16px;
-    padding:18px 12px; text-align:center;
-  }
-  .stat .ic{
-    width:36px; height:36px; border-radius:10px; margin:0 auto 10px;
-    display:flex; align-items:center; justify-content:center;
-  }
+  .stat{background:var(--surface); border:1px solid var(--border-soft); border-radius:16px; padding:18px 12px; text-align:center;}
+  .stat .ic{width:36px; height:36px; border-radius:10px; margin:0 auto 10px; display:flex; align-items:center; justify-content:center;}
   .stat .num{font-family:'JetBrains Mono',monospace; font-size:22px; font-weight:800; line-height:1.1;}
   .stat .lbl{font-size:11px; color:var(--text-faint); margin-top:4px;}
 
@@ -75,87 +54,37 @@
   .section-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;}
   .section-head h2{font-size:21px; font-weight:800; margin:0; display:flex; align-items:center; gap:11px;}
   .section-head h2::before{content:""; width:5px; height:22px; border-radius:3px; background:linear-gradient(180deg, var(--violet-a), var(--blue-a));}
-  .section-head .count-badge{
-    font-size:12px; color:var(--text-dim); background:var(--surface); border:1px solid var(--border-soft);
-    padding:5px 12px; border-radius:999px; font-family:'JetBrains Mono',monospace;
-  }
+  .section-head .count-badge{font-size:12px; color:var(--text-dim); background:var(--surface); border:1px solid var(--border-soft); padding:5px 12px; border-radius:999px; font-family:'JetBrains Mono',monospace;}
 
   .search-box{position:relative; margin-bottom:22px;}
-  .search-box svg{position:absolute; right:16px; top:50%; transform:translateY(-50%); opacity:.5; pointer-events:none;}
-  input[type=text], input[type=password]{
-    width:100%; background:var(--surface); border:1px solid var(--border);
-    color:var(--text); padding:14px 46px 14px 16px; border-radius:14px; font-family:inherit; font-size:14px;
-  }
-  input[type=text]:focus, input[type=password]:focus{outline:none; border-color:var(--violet-a); box-shadow:0 0 0 3px rgba(167,139,250,.15);}
+  .search-box svg{position:absolute; left:16px; top:50%; transform:translateY(-50%); opacity:.5; pointer-events:none;}
+  input[type=text]{width:100%; background:var(--surface); border:1px solid var(--border); color:var(--text); padding:14px 16px 14px 46px; border-radius:14px; font-family:inherit; font-size:14px;}
+  input[type=text]:focus{outline:none; border-color:var(--violet-a); box-shadow:0 0 0 3px rgba(167,139,250,.15);}
 
   .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(215px,1fr)); gap:16px;}
-  .card{
-    background:linear-gradient(160deg, var(--surface-2), var(--surface));
-    border:1px solid var(--border-soft); border-radius:20px;
-    padding:20px; transition:transform .18s, border-color .18s, box-shadow .18s;
-  }
+  .card{background:linear-gradient(160deg, var(--surface-2), var(--surface)); border:1px solid var(--border-soft); border-radius:20px; padding:20px; transition:transform .18s, border-color .18s, box-shadow .18s;}
   .card:hover{transform:translateY(-4px); border-color:rgba(167,139,250,.45); box-shadow:0 16px 34px -14px rgba(0,0,0,.6);}
   .card .top-row{display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:14px;}
-  .card .icon-tile{
-    width:52px; height:52px; border-radius:15px;
-    display:flex; align-items:center; justify-content:center;
-    font-family:'JetBrains Mono',monospace; font-weight:800; font-size:12.5px; color:#0a0d16;
-  }
+  .card .icon-tile{width:52px; height:52px; border-radius:15px; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-weight:800; font-size:12.5px; color:#0a0d16;}
   .icon-tile.apk{background:linear-gradient(135deg, var(--apk-a), var(--apk-b)); box-shadow:0 8px 18px -6px rgba(34,201,142,.5);}
   .icon-tile.exe{background:linear-gradient(135deg, var(--exe-a), var(--exe-b)); box-shadow:0 8px 18px -6px rgba(255,138,61,.5);}
   .card .size-tag{font-size:11px; color:var(--text-dim); font-family:'JetBrains Mono',monospace; background:rgba(255,255,255,.04); padding:4px 9px; border-radius:8px; border:1px solid var(--border-soft);}
   .card .name{font-size:14.5px; font-weight:700; margin-bottom:4px; word-break:break-word; line-height:1.4;}
   .card .cat{font-size:11.5px; color:var(--text-faint); margin-bottom:16px;}
   .card .btns{display:flex; gap:8px;}
-  button{
-    font-family:inherit; cursor:pointer; border-radius:10px; border:1px solid var(--border);
-    background:var(--surface-3); color:var(--text); font-weight:600; font-size:12.5px; padding:9px 12px;
-    transition:transform .12s, border-color .15s; flex:1;
-  }
+  button{font-family:inherit; cursor:pointer; border-radius:10px; border:1px solid var(--border); background:var(--surface-3); color:var(--text); font-weight:600; font-size:12.5px; padding:9px 12px; transition:transform .12s, border-color .15s; flex:1;}
   button:hover{border-color:var(--violet-a); transform:translateY(-1px);}
-  button:disabled{opacity:.5; cursor:not-allowed; transform:none;}
   .btn-dl{background:linear-gradient(135deg, rgba(167,139,250,.28), rgba(79,141,255,.16)); border-color:rgba(167,139,250,.45); font-weight:700;}
-  .btn-del{color:var(--danger); border-color:rgba(255,107,107,.4); background:rgba(255,107,107,.08); flex:0 0 auto; padding:9px 14px;}
 
-  .empty{
-    text-align:center; padding:64px 20px; color:var(--text-dim);
-    border:1.5px dashed var(--border); border-radius:22px;
-    background:radial-gradient(400px 200px at 50% 0%, rgba(124,92,245,.09), transparent);
-  }
+  .empty{text-align:center; padding:64px 20px; color:var(--text-dim); border:1.5px dashed var(--border); border-radius:22px; background:radial-gradient(400px 200px at 50% 0%, rgba(124,92,245,.09), transparent);}
   .empty svg{opacity:.5; margin-bottom:12px;}
   .empty b{color:var(--text); display:block; margin-bottom:6px; font-size:16px;}
 
-  .about{
-    display:flex; align-items:center; gap:26px; background:linear-gradient(160deg, var(--surface-2), var(--surface));
-    border:1px solid var(--border-soft); border-radius:22px; padding:28px; flex-wrap:wrap;
-  }
+  .about{display:flex; align-items:center; gap:26px; background:linear-gradient(160deg, var(--surface-2), var(--surface)); border:1px solid var(--border-soft); border-radius:22px; padding:28px; flex-wrap:wrap;}
   .about .av2{width:64px; height:64px; border-radius:50%; flex:0 0 auto; object-fit:cover; border:2px solid var(--violet-a);}
   .about .body{flex:1; min-width:220px;}
   .about h3{margin:0 0 8px; font-size:17px;}
   .about p{margin:0; color:var(--text-dim); font-size:14.5px; line-height:1.95;}
-
-  .admin-toggle{
-    font-size:13px; color:var(--text-dim); background:none; border:none; padding:0; cursor:pointer;
-    display:flex; align-items:center; gap:8px; margin-bottom:14px; width:auto; flex:none;
-  }
-  .admin-toggle:hover{color:var(--text); border:none; transform:none;}
-  .admin-panel{display:none; background:var(--surface); border:1px solid var(--border-soft); border-radius:18px; padding:24px;}
-  .admin-panel.open{display:block;}
-  .admin-panel label{display:block; font-size:12px; color:var(--text-dim); margin:12px 0 6px; font-weight:600;}
-  .admin-panel input[type=password], .admin-panel input[type=file]{
-    width:100%; background:var(--surface-2); border:1px solid var(--border); color:var(--text);
-    padding:11px 14px; border-radius:10px; font-family:inherit; margin-bottom:4px;
-  }
-  .upload-btn{
-    margin-top:16px; width:100%; padding:14px; border-radius:12px; font-weight:700; font-size:14px;
-    background:linear-gradient(135deg, var(--violet-a), var(--blue-b)); border:none; color:#fff; flex:none;
-  }
-  .progress{height:6px; background:var(--surface-2); border-radius:4px; overflow:hidden; margin-top:12px; display:none;}
-  .progress.on{display:block;}
-  .progress div{height:100%; width:40%; border-radius:4px; background:linear-gradient(90deg, var(--violet-a), var(--apk-a)); animation:load 1s ease-in-out infinite;}
-  @keyframes load{0%{margin-right:0%;} 50%{margin-right:60%;} 100%{margin-right:0%;}}
-  .status{font-size:13px; margin-top:10px; color:var(--text-dim);}
-  .hint{font-size:11px; color:var(--text-faint); margin-top:2px; line-height:1.7;}
 
   footer{border-top:1px solid var(--border-soft); margin-top:20px; padding:40px 0 26px;}
   .foot-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:24px; margin-bottom:28px;}
@@ -166,10 +95,7 @@
   .foot-col a:hover{color:var(--text);}
   .foot-bottom{text-align:center; color:var(--text-faint); font-size:12px; padding-top:20px; border-top:1px solid var(--border-soft);}
 
-  @media (max-width:620px){
-    .nav-links{display:none;}
-    .foot-grid{grid-template-columns:1fr; gap:22px;}
-  }
+  @media (max-width:620px){ .nav-links{display:none;} .foot-grid{grid-template-columns:1fr; gap:22px;} }
 </style>
 </head>
 <body>
@@ -177,9 +103,9 @@
   <nav>
     <div class="brand"><span class="hex">E</span> EDRIS ZIRAK</div>
     <div class="nav-links">
-      <a href="#top">کور</a>
-      <a href="#apps">اپلیکیشنونه</a>
-      <a href="#about">زما په اړه</a>
+      <a href="#top">Home</a>
+      <a href="#apps">Apps</a>
+      <a href="#about">About</a>
     </div>
   </nav>
 </header>
@@ -189,71 +115,41 @@
     <div class="avatar-ring"><img src="profile.jpg" alt="Edris Zirak"></div>
     <div class="role">Developer · zkapk</div>
     <h1>Edris <span>Zirak</span></h1>
-    <p class="tagline">خپل APK او EXE اپلیکیشنونه دلته خوندي کوم — هرڅوک کولی شي دا پاڼه پرانیزي، لټون وکړي او ډونلوډ یې کړي.</p>
+    <p class="tagline">I share my APK and EXE apps here — anyone can open this page, search, and download.</p>
   </div>
 
   <div class="stats">
     <div class="stat">
-      <div class="ic" style="background:linear-gradient(135deg,var(--violet-a),var(--blue-b))">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-      </div>
-      <div class="num" id="countTotal">0</div><div class="lbl">ټول اپلیکیشنونه</div>
+      <div class="ic" style="background:linear-gradient(135deg,var(--violet-a),var(--blue-b))"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
+      <div class="num" id="countTotal">0</div><div class="lbl">Total Apps</div>
     </div>
     <div class="stat">
-      <div class="ic" style="background:linear-gradient(135deg,var(--apk-a),var(--apk-b))">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2v13m0 0-4-4m4 4 4-4M4 21h16"/></svg>
-      </div>
-      <div class="num" id="countApk">0</div><div class="lbl">APK فایلونه</div>
+      <div class="ic" style="background:linear-gradient(135deg,var(--apk-a),var(--apk-b))"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2v13m0 0-4-4m4 4 4-4M4 21h16"/></svg></div>
+      <div class="num" id="countApk">0</div><div class="lbl">APK Files</div>
     </div>
     <div class="stat">
-      <div class="ic" style="background:linear-gradient(135deg,var(--exe-a),var(--exe-b))">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/></svg>
-      </div>
-      <div class="num" id="countExe">0</div><div class="lbl">EXE فایلونه</div>
+      <div class="ic" style="background:linear-gradient(135deg,var(--exe-a),var(--exe-b))"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/></svg></div>
+      <div class="num" id="countExe">0</div><div class="lbl">EXE Files</div>
     </div>
   </div>
 
   <div class="section" id="apps">
-    <div class="section-head">
-      <h2>زما اپلیکیشنونه</h2>
-      <span class="count-badge" id="headCount">0 items</span>
-    </div>
-
+    <div class="section-head"><h2>My Applications</h2><span class="count-badge" id="headCount">0 items</span></div>
     <div class="search-box">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      <input type="text" id="search" placeholder="د اپلیکیشن په نوم لټون وکړئ...">
+      <input type="text" id="search" placeholder="Search apps by name...">
     </div>
-
     <div id="listArea"></div>
   </div>
 
   <div class="section" id="about">
-    <div class="section-head"><h2>زما په اړه</h2></div>
+    <div class="section-head"><h2>About Me</h2></div>
     <div class="about">
       <img class="av2" src="profile.jpg" alt="Edris Zirak">
       <div class="body">
         <h3>Edris Zirak</h3>
-        <p>زه Edris Zirak یم — دا پاڼه زما د APK/EXE اپلیکیشنونو کتابتون دی چې هرڅوک ورڅخه کولی شي غوره اپلیکیشنونه ومومي او ډونلوډ یې کړي.</p>
+        <p>I'm Edris Zirak. This page is my personal library of APK/EXE apps where anyone can find and download what they need.</p>
       </div>
-    </div>
-  </div>
-
-  <div class="section" style="padding-top:0;">
-    <button class="admin-toggle" id="adminToggle">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.5l-4.8 2.4.9-5.4-3.9-3.8 5.4-.8z"/></svg>
-      د اداره کوونکي ننوتل (نوی اپلیکیشن اپلوډ کول)
-    </button>
-    <div class="admin-panel" id="adminPanel">
-      <label>پاسورډ</label>
-      <input type="password" id="pw" placeholder="پاسورډ">
-      <label>GitHub Token</label>
-      <input type="password" id="ghToken" placeholder="ghp_... (یوازې دا ناستې لپاره کارول کیږي)">
-      <div class="hint">هر ځل چې اپلوډ کوئ دا لیکل کیږي — دا هیڅکله ذخیره نشي.</div>
-      <label>فایل غوره کړئ (APK یا EXE)</label>
-      <input type="file" id="fileInput" accept=".apk,.exe">
-      <button class="upload-btn" id="uploadBtn">اپلوډ کول</button>
-      <div class="progress" id="progressWrap"><div></div></div>
-      <div class="status" id="status"></div>
     </div>
   </div>
 </div>
@@ -263,21 +159,21 @@
     <div class="foot-grid">
       <div>
         <div class="foot-brand"><span class="hex">E</span> EDRIS ZIRAK</div>
-        <span style="color:var(--text-faint); font-size:13px; line-height:1.9;">د APK او EXE اپلیکیشنونو یو خوندي، عامه کتابتون.</span>
+        <span style="color:var(--text-faint); font-size:13px; line-height:1.9;">A safe, public library of APK and EXE applications.</span>
       </div>
       <div class="foot-col">
-        <h4>لینکونه</h4>
-        <a href="#top">کور</a>
-        <a href="#apps">اپلیکیشنونه</a>
-        <a href="#about">زما په اړه</a>
+        <h4>Links</h4>
+        <a href="#top">Home</a>
+        <a href="#apps">Apps</a>
+        <a href="#about">About</a>
       </div>
       <div class="foot-col">
-        <h4>اړیکه</h4>
+        <h4>Contact</h4>
         <a href="https://github.com/zkapk/zkapk" target="_blank">GitHub</a>
         <span>zkapk.github.io/zkapk</span>
       </div>
     </div>
-    <div class="foot-bottom">© 2026 Edris Zirak — zkapk. ټول حقونه خوندي دي.</div>
+    <div class="foot-bottom">© 2026 Edris Zirak — zkapk. All rights reserved.</div>
   </div>
 </footer>
 
@@ -295,11 +191,11 @@ function fmtSize(bytes){
 async function loadManifest(){
   try{
     const res = await fetch(`${API_BASE}/apps/manifest.json?ref=${GITHUB_BRANCH}&t=${Date.now()}`);
-    if(!res.ok) return { list: [], sha: null };
+    if(!res.ok) return { list: [] };
     const data = await res.json();
     const decoded = decodeURIComponent(escape(atob(data.content)));
-    return { list: JSON.parse(decoded), sha: data.sha };
-  }catch(e){ return { list: [], sha: null }; }
+    return { list: JSON.parse(decoded) };
+  }catch(e){ return { list: [] }; }
 }
 
 async function refresh(){
@@ -321,7 +217,7 @@ function render(){
   if(filtered.length === 0){
     area.innerHTML = `<div class="empty">
       <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-      <b>هیڅ اپلیکیشن ونه موندل شو</b>${allApps.length===0 ? 'تر اوسه هیڅ اپلیکیشن اپلوډ شوی نه دی' : 'د لټون کلمه بدله کړئ'}
+      <b>No apps found</b>${allApps.length===0 ? 'Nothing has been uploaded yet' : 'Try a different search term'}
     </div>`;
     return;
   }
@@ -334,100 +230,12 @@ function render(){
       <div class="name">${a.name}</div>
       <div class="cat">${a.ext === 'apk' ? 'Android Application' : 'Windows Program'}</div>
       <div class="btns">
-        <button class="btn-dl" onclick="window.open('${RAW_BASE}/${a.path}','_blank')">ډونلوډ</button>
-        <button class="btn-del" onclick="deleteApp('${a.path}')">لرې کول</button>
+        <button class="btn-dl" onclick="window.open('${RAW_BASE}/${a.path}','_blank')">Download</button>
       </div>
     </div>`).join('')}</div>`;
 }
 
 document.getElementById('search').addEventListener('input', render);
-document.getElementById('adminToggle').addEventListener('click', () => {
-  document.getElementById('adminPanel').classList.toggle('open');
-});
-
-function toBase64(file){
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result.split(',')[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-async function ghPut(path, contentBase64, message, sha, token){
-  const body = { message, content: contentBase64, branch: GITHUB_BRANCH };
-  if(sha) body.sha = sha;
-  const res = await fetch(`${API_BASE}/${path}`, {
-    method: 'PUT',
-    headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github+json' },
-    body: JSON.stringify(body)
-  });
-  if(!res.ok){ const e = await res.json(); throw new Error(e.message || 'GitHub error'); }
-  return res.json();
-}
-
-document.getElementById('uploadBtn').addEventListener('click', async () => {
-  const pw = document.getElementById('pw').value;
-  const token = document.getElementById('ghToken').value.trim();
-  const file = document.getElementById('fileInput').files[0];
-  const status = document.getElementById('status');
-  const btn = document.getElementById('uploadBtn');
-
-  if(pw !== UPLOAD_PASSWORD){ status.textContent = "پاسورډ سم نه دی."; return; }
-  if(!token){ status.textContent = "لومړی GitHub Token ولیکئ."; return; }
-  if(!file){ status.textContent = "لومړی فایل غوره کړئ."; return; }
-  const ext = file.name.split('.').pop().toLowerCase();
-  if(ext !== 'apk' && ext !== 'exe'){ status.textContent = "یوازې APK یا EXE فایلونه منل کیږي."; return; }
-  if(file.size > 25*1024*1024){ status.textContent = "دا فایل له ۲۵ MB زیات دی."; return; }
-
-  btn.disabled = true;
-  document.getElementById('progressWrap').classList.add('on');
-  status.textContent = "اپلوډ کیږي...";
-
-  try{
-    const b64 = await toBase64(file);
-    const path = `apps/${Date.now()}_${file.name}`;
-    await ghPut(path, b64, `Add app: ${file.name}`, null, token);
-
-    const { list, sha } = await loadManifest();
-    list.unshift({ name:file.name, ext:ext, size:file.size, path:path, uploadedAt:Date.now() });
-    const manifestB64 = btoa(unescape(encodeURIComponent(JSON.stringify(list, null, 2))));
-    await ghPut('apps/manifest.json', manifestB64, `Update manifest: add ${file.name}`, sha, token);
-
-    status.textContent = "بریالیتوب سره اپلوډ شو.";
-    document.getElementById('fileInput').value = '';
-    await refresh();
-  }catch(e){
-    status.textContent = "تیروتنه: " + e.message;
-  }finally{
-    btn.disabled = false;
-    document.getElementById('progressWrap').classList.remove('on');
-  }
-});
-
-async function deleteApp(path){
-  const pw = prompt("د لرې کولو لپاره پاسورډ ولیکئ:");
-  if(pw !== UPLOAD_PASSWORD){ alert("پاسورډ سم نه دی."); return; }
-  const token = prompt("GitHub Token ولیکئ:");
-  if(!token) return;
-  try{
-    const fileRes = await fetch(`${API_BASE}/${path}?ref=${GITHUB_BRANCH}`);
-    const fileData = await fileRes.json();
-    await fetch(`${API_BASE}/${path}`, {
-      method:'DELETE',
-      headers:{ 'Authorization':`token ${token}`, 'Accept':'application/vnd.github+json' },
-      body: JSON.stringify({ message:`Remove ${path}`, sha:fileData.sha, branch:GITHUB_BRANCH })
-    });
-    const { list, sha } = await loadManifest();
-    const updated = list.filter(a => a.path !== path);
-    const manifestB64 = btoa(unescape(encodeURIComponent(JSON.stringify(updated, null, 2))));
-    await ghPut('apps/manifest.json', manifestB64, `Update manifest: remove ${path}`, sha, token);
-    await refresh();
-  }catch(e){
-    alert("تیروتنه: " + e.message);
-  }
-}
-
 refresh();
 </script>
 </body>
