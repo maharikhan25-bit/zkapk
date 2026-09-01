@@ -1,1 +1,179 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — zkapk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#090b11; --surface:#141926; --surface-2:#1a2032;
+    --border:#252c40; --text:#f3f5f9; --text-dim:#98a0b3; --text-faint:#5c6478;
+    --violet-a:#a78bfa; --violet-b:#7c5cf5; --danger:#ff6b6b;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--text); font-family:'Sora',sans-serif; min-height:100vh; padding:40px 20px;}
+  .wrap{max-width:480px; margin:0 auto;}
+  h1{font-size:20px; font-weight:800; margin:0 0 6px;}
+  p.sub{color:var(--text-dim); font-size:13.5px; margin:0 0 26px; line-height:1.8;}
+  .panel{background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:24px;}
+  label{display:block; font-size:12px; color:var(--text-dim); margin:14px 0 6px; font-weight:600;}
+  input[type=password], input[type=file]{
+    width:100%; background:var(--surface-2); border:1px solid var(--border); color:var(--text);
+    padding:12px 14px; border-radius:10px; font-family:inherit; font-size:14px;
+  }
+  .hint{font-size:11px; color:var(--text-faint); margin-top:4px; line-height:1.7;}
+  button{width:100%; margin-top:18px; padding:14px; border-radius:12px; font-weight:700; font-size:14px; background:linear-gradient(135deg, var(--violet-a), var(--violet-b)); border:none; color:#fff; cursor:pointer;}
+  button:disabled{opacity:.5; cursor:not-allowed;}
+  .progress{height:6px; background:var(--surface-2); border-radius:4px; overflow:hidden; margin-top:14px; display:none;}
+  .progress.on{display:block;}
+  .progress div{height:100%; width:40%; border-radius:4px; background:var(--violet-a); animation:load 1s ease-in-out infinite;}
+  @keyframes load{0%{margin-left:0%;} 50%{margin-left:60%;} 100%{margin-left:0%;}}
+  .status{font-size:13px; margin-top:12px; color:var(--text-dim);}
+  .list{margin-top:34px;}
+  .list h2{font-size:15px; margin:0 0 12px;}
+  .item{display:flex; align-items:center; justify-content:space-between; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:12px 16px; margin-bottom:8px; font-size:13px;}
+  .item .del{color:var(--danger); background:none; border:1px solid var(--danger); width:auto; margin:0; padding:6px 12px; font-size:12px; border-radius:8px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Admin Panel</h1>
+  <p class="sub">Private upload page — not linked anywhere on the public site.</p>
+
+  <div class="panel">
+    <label>Password</label>
+    <input type="password" id="pw" placeholder="Password">
+
+    <label>GitHub Token</label>
+    <input type="password" id="ghToken" placeholder="ghp_... (used only this session, never saved)">
+    <div class="hint">You must paste this each time — it is never stored anywhere.</div>
+
+    <label>File (APK or EXE)</label>
+    <input type="file" id="fileInput" accept=".apk,.exe">
+
+    <button id="uploadBtn">Upload</button>
+    <div class="progress" id="progressWrap"><div></div></div>
+    <div class="status" id="status"></div>
+  </div>
+
+  <div class="list">
+    <h2>Current Apps</h2>
+    <div id="listArea"></div>
+  </div>
+</div>
+
+<script src="github-config.js"></script>
+<script>
+const API_BASE = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents`;
+
+async function loadManifest(){
+  try{
+    const res = await fetch(`${API_BASE}/apps/manifest.json?ref=${GITHUB_BRANCH}&t=${Date.now()}`);
+    if(!res.ok) return { list: [], sha: null };
+    const data = await res.json();
+    const decoded = decodeURIComponent(escape(atob(data.content)));
+    return { list: JSON.parse(decoded), sha: data.sha };
+  }catch(e){ return { list: [], sha: null }; }
+}
+
+async function renderList(){
+  const { list } = await loadManifest();
+  const area = document.getElementById('listArea');
+  if(list.length === 0){ area.innerHTML = '<div class="item">No apps yet</div>'; return; }
+  area.innerHTML = list.map(a => `
+    <div class="item">
+      <span>${a.name}</span>
+      <button class="del" onclick="deleteApp('${a.path}')">Delete</button>
+    </div>`).join('');
+}
+
+function toBase64(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function ghPut(path, contentBase64, message, sha, token){
+  const body = { message, content: contentBase64, branch: GITHUB_BRANCH };
+  if(sha) body.sha = sha;
+  const res = await fetch(`${API_BASE}/${path}`, {
+    method: 'PUT',
+    headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github+json' },
+    body: JSON.stringify(body)
+  });
+  if(!res.ok){ const e = await res.json(); throw new Error(e.message || 'GitHub error'); }
+  return res.json();
+}
+
+document.getElementById('uploadBtn').addEventListener('click', async () => {
+  const pw = document.getElementById('pw').value;
+  const token = document.getElementById('ghToken').value.trim();
+  const file = document.getElementById('fileInput').files[0];
+  const status = document.getElementById('status');
+  const btn = document.getElementById('uploadBtn');
+
+  if(pw !== UPLOAD_PASSWORD){ status.textContent = "Wrong password."; return; }
+  if(!token){ status.textContent = "Enter a GitHub token first."; return; }
+  if(!file){ status.textContent = "Choose a file first."; return; }
+  const ext = file.name.split('.').pop().toLowerCase();
+  if(ext !== 'apk' && ext !== 'exe'){ status.textContent = "Only APK or EXE files are accepted."; return; }
+  if(file.size > 25*1024*1024){ status.textContent = "File is larger than 25 MB — cannot upload."; return; }
+
+  btn.disabled = true;
+  document.getElementById('progressWrap').classList.add('on');
+  status.textContent = "Uploading...";
+
+  try{
+    const b64 = await toBase64(file);
+    const path = `apps/${Date.now()}_${file.name}`;
+    await ghPut(path, b64, `Add app: ${file.name}`, null, token);
+
+    const { list, sha } = await loadManifest();
+    list.unshift({ name:file.name, ext:ext, size:file.size, path:path, uploadedAt:Date.now() });
+    const manifestB64 = btoa(unescape(encodeURIComponent(JSON.stringify(list, null, 2))));
+    await ghPut('apps/manifest.json', manifestB64, `Update manifest: add ${file.name}`, sha, token);
+
+    status.textContent = "Uploaded successfully.";
+    document.getElementById('fileInput').value = '';
+    await renderList();
+  }catch(e){
+    status.textContent = "Error: " + e.message;
+  }finally{
+    btn.disabled = false;
+    document.getElementById('progressWrap').classList.remove('on');
+  }
+});
+
+async function deleteApp(path){
+  const pw = prompt("Password to delete:");
+  if(pw !== UPLOAD_PASSWORD){ alert("Wrong password."); return; }
+  const token = prompt("GitHub Token:");
+  if(!token) return;
+  try{
+    const fileRes = await fetch(`${API_BASE}/${path}?ref=${GITHUB_BRANCH}`);
+    const fileData = await fileRes.json();
+    await fetch(`${API_BASE}/${path}`, {
+      method:'DELETE',
+      headers:{ 'Authorization':`token ${token}`, 'Accept':'application/vnd.github+json' },
+      body: JSON.stringify({ message:`Remove ${path}`, sha:fileData.sha, branch:GITHUB_BRANCH })
+    });
+    const { list, sha } = await loadManifest();
+    const updated = list.filter(a => a.path !== path);
+    const manifestB64 = btoa(unescape(encodeURIComponent(JSON.stringify(updated, null, 2))));
+    await ghPut('apps/manifest.json', manifestB64, `Update manifest: remove ${path}`, sha, token);
+    await renderList();
+  }catch(e){
+    alert("Error: " + e.message);
+  }
+}
+
+renderList();
+</script>
+</body>
+</html>
